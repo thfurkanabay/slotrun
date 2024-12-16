@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b841bb97be2943768b00c9d1e819414, type: 3}
+  m_Name: c1l2
+  m_EditorClassIdentifier: 
+  levelName: level2
+  entryFee: 200
+  goalObjectImagelist:
+  - {fileID: 21300000, guid: 179500713cbe44d929eebc05549d0010, type: 3}
+  - {fileID: 21300000, guid: 57af58e82b6d440c9a9ddca1a3ce7af5, type: 3}
+  - {fileID: 21300000, guid: f262b9675c55d4529b01cc98bc5bdef7, type: 3}
+  - {fileID: 21300000, guid: b25dc06bf1fba4ac4a323d2eeefd5770, type: 3}
+  goalObjectAmount: 1
+  levelSpeed: 3
+  obstacleCount: 0
+  rewardAmount: 100
