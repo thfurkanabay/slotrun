@@ -63,13 +63,15 @@ public class ChapterManager : MonoBehaviour
         if (chapterGroundImage.sprite != null && chapter.chapterGroundSprite != null)
             chapterGroundImage.sprite = chapter.chapterGroundSprite;
 
-        // Spawn chapter character
         if (chapter.chapterCharacter != null && characterSpawnPoint != null)
         {
             if (spawnedCharacter != null)
                 Destroy(spawnedCharacter);
 
-            spawnedCharacter = Instantiate(chapter.chapterCharacter, characterSpawnPoint.position, Quaternion.identity);
+            Vector3 spawnPosition = characterSpawnPoint.position;
+            spawnPosition.z = -1; // Set the z position to -1
+
+            spawnedCharacter = Instantiate(chapter.chapterCharacter, spawnPosition, Quaternion.identity);
         }
     }
 

@@ -103,5 +103,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("ChapterManager instance is null!");
         }
+        PlayerController.Instance.isPlayerDead = false;
     }
 }
