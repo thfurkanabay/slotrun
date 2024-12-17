@@ -9,6 +9,7 @@ public class ObstacleSpawner : MonoBehaviour
     public GameObject tilePrefab;         // Normal blok prefab
     public GameObject tileUpPrefab;       // Üst blok prefab
     public GameObject collectablePrefab;
+    public GameObject slotPrefab;
     [Header("Variables ")]
     public Transform topBound;            // Üst referans noktası
     public Transform bottomBound;         // Alt referans noktası
@@ -128,7 +129,13 @@ public class ObstacleSpawner : MonoBehaviour
 
         // Collectable nesnesi oluştur
         GameObject collectable = Instantiate(collectablePrefab, position, Quaternion.identity);
+        GameObject slot = Instantiate(slotPrefab, position, Quaternion.identity);
+
+        // Slot'un rotasyonunu ayarla
+        slot.transform.rotation = Quaternion.Euler(0, -90, 0);
+
         collectable.transform.SetParent(parent.transform);
+        slot.transform.SetParent(parent.transform);
 
         // Rastgele bir sprite ata
         SpriteRenderer renderer = collectable.GetComponent<SpriteRenderer>();
