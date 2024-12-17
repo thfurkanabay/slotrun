@@ -134,7 +134,14 @@ public class ObstacleSpawner : MonoBehaviour
         SpriteRenderer renderer = collectable.GetComponent<SpriteRenderer>();
         if (renderer != null)
         {
-            renderer.sprite = GetRandomSprite();
+            Sprite randomSprite = GetRandomSprite();
+            renderer.sprite = randomSprite;
+
+            // Eğer atanan sprite'ın adı currentGoalObjectImage ile aynıysa tag değiştir
+            if (randomSprite.name == ChapterManager.Instance.currentGoalObjectImage.sprite.name)
+            {
+                collectable.tag = "GoalObject";
+            }
         }
     }
     private Sprite GetRandomSprite()

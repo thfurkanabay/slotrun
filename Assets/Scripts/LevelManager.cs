@@ -9,21 +9,26 @@ public class LevelManager : MonoBehaviour
     public Image levelGoalImage;
     public int levelDifficulty;
     public Slider levelSlider;
+    public bool isCurrentLevelComplete;
 
-    private void Start()
+    /*public bool IsCurrentGoalObject(bool isCurrentGoalObject)
     {
-        // Choose level goal object randomly and assign. And choose level goal amount and assign the slider rate.
+        if ()
+        {
+            return true;
+
+        }
+    }*/
+
+
+    public void PlaySFX() { }
+
+    public void LevelLose()
+    {
 
     }
-
-    // Level prefabını spawn etme
-    private void InitializeLevel()
+    public void LevelWin()
     {
 
-        //var levelInstance = Instantiate(levelPrefab, currentLevel.spawnPoint.position, Quaternion.identity);
-        //var levelController = levelInstance.GetComponent<LevelController>();
-
-        // Level ayarlarını ilet
-        //levelController.InitializeLevel(currentLevel);
     }
 }

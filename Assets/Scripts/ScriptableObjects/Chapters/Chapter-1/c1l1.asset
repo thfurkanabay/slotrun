@@ -14,12 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: level1
   entryFee: 100
-  goalObjectImagelist:
-  - {fileID: 21300000, guid: 179500713cbe44d929eebc05549d0010, type: 3}
-  - {fileID: 21300000, guid: 57af58e82b6d440c9a9ddca1a3ce7af5, type: 3}
-  - {fileID: 21300000, guid: f262b9675c55d4529b01cc98bc5bdef7, type: 3}
-  - {fileID: 21300000, guid: b25dc06bf1fba4ac4a323d2eeefd5770, type: 3}
-  goalObjectAmount: 1
+  goalObjectAmount: 3
   levelSpeed: 3
   obstacleCount: 0
   rewardAmount: 100
+  isComplete: 0

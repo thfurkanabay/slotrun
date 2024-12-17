@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController Instance;
 
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -36,7 +35,6 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
     }
-
     private void Jump()
     {
         rb.velocity = Vector2.up * jumpForce;
@@ -46,9 +44,24 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Obstacle"))
         {
-            Debug.Log("Collide wih Obstacle");
-            //currentState = GameManager.GameState.GameOver;
+            Debug.Log("Collided with Obstacle");
             HandleDeath(); // Ölüm sonrası işlemleri çağır
+        }
+        else if (other.CompareTag("Collectible"))
+        {
+            Debug.Log("Collided with other Collectibles");
+            SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.CollectiblePickup);
+            Destroy(other.gameObject);
+
+            //HandleCollectiblePickup();
+        }
+        else if (other.CompareTag("GoalObject"))
+        {
+            Debug.Log("Collided with Goal Object");
+            GoalSlider.Instance.IncrementGoalProgress();
+            SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.CollectiblePickup);
+            Destroy(other.gameObject);
+            //HandleCollectiblePickup();
         }
     }
 

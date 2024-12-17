@@ -94,17 +94,12 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        // play chapter MX
+        ChapterManager.Instance.PlayChapterMX();
+        // Change the gamstate
         ChangeGameState(GameState.GameStart);
         UIManager.Instance.OpenScreen("Game");
-
-        if (ChapterManager.Instance != null)
-        {
-            ChapterManager.Instance.LoadChapterByIndex(ChapterManager.Instance.currentChapterIndex);
-        }
-        else
-        {
-            Debug.LogError("ChapterManager instance is null!");
-        }
+        ChapterManager.Instance.LoadChapterByIndex(ChapterManager.Instance.currentChapterIndex);
         // Player isPlayerDead false
         PlayerController.Instance.isPlayerDead = false;
         // Spawn the obstscles
@@ -113,6 +108,6 @@ public class GameManager : MonoBehaviour
         groundMovement.StartMovement();
         // Start cloud movement
         CloudMovement.Instance.StartCloudMovement();
-
     }
+
 }

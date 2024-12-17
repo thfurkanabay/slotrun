@@ -13,11 +13,14 @@ public class ChapterManager : MonoBehaviour
     public SpriteRenderer chapterGroundImage;
     public Image chapterGoalObjectImage;
     public Transform characterSpawnPoint;
+    public AudioClip chapterMXClip;
+
+    public Slider goalSlider;
 
     [Header("Chapters")]
     public List<Chapter> chapters;
     public int currentChapterIndex = 0;
-
+    public int currentLevelIndex = 0;
     private GameObject spawnedCharacter;
 
     public Image currentGoalObjectImage;
@@ -82,6 +85,12 @@ public class ChapterManager : MonoBehaviour
             chapterGoalObjectImage.sprite = chapter.goalObjectImagelist[randomIndex];
             currentGoalObjectImage = chapterGoalObjectImage;
         }
+        if (chapterMXClip != null && chapter.chapterMX != null)
+        {
+            chapterMXClip = chapter.chapterMX;
+        }
+        // Set the goal amount for slider
+        GoalSlider.Instance.InitializeGoal(chapter.levels[currentLevelIndex].goalObjectAmount);
     }
 
     public void NextChapter()
@@ -108,5 +117,9 @@ public class ChapterManager : MonoBehaviour
         {
             Debug.Log("You are at the first chapter.");
         }
+    }
+    public void PlayChapterMX()
+    {
+        SoundManager.Instance.PlayMusic(chapters[currentChapterIndex].chapterMX, true);
     }
 }

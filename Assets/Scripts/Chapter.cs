@@ -11,7 +11,7 @@ public class Chapter : ScriptableObject
     public Sprite chapterGroundSprite;
     public GameObject chapterCharacter;
     public List<Sprite> goalObjectImagelist;
-
+    public AudioClip chapterMX;
     public List<Level> levels;
 
 }
