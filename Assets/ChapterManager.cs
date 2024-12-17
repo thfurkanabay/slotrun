@@ -11,6 +11,7 @@ public class ChapterManager : MonoBehaviour
     //public GameObject chapterBackgroundImage;
     public SpriteRenderer chapterBackgroundImage;
     public SpriteRenderer chapterGroundImage;
+    public Image chapterGoalObjectImage;
     public Transform characterSpawnPoint;
 
     [Header("Chapters")]
@@ -18,6 +19,8 @@ public class ChapterManager : MonoBehaviour
     public int currentChapterIndex = 0;
 
     private GameObject spawnedCharacter;
+
+    public Image currentGoalObjectImage;
     public static ChapterManager Instance;
     private void Awake()
     {
@@ -72,6 +75,12 @@ public class ChapterManager : MonoBehaviour
             spawnPosition.z = -1; // Set the z position to -1
 
             spawnedCharacter = Instantiate(chapter.chapterCharacter, spawnPosition, Quaternion.identity);
+        }
+        if (chapterGoalObjectImage.sprite != null && chapter.goalObjectImagelist != null)
+        {
+            int randomIndex = Random.Range(0, chapter.goalObjectImagelist.Count);
+            chapterGoalObjectImage.sprite = chapter.goalObjectImagelist[randomIndex];
+            currentGoalObjectImage = chapterGoalObjectImage;
         }
     }
 

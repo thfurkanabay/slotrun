@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class CloudManager : MonoBehaviour
+public class CloudMovement : MonoBehaviour
 {
     public List<GameObject> cloudPrefabs; // Farklı bulut prefabs'leri
     public int cloudCount = 5;            // Kaç adet bulut spawn edilecek
@@ -15,7 +15,21 @@ public class CloudManager : MonoBehaviour
 
     private GameObject[] clouds;          // Bulutların referanslarını tutar
     private float[] cloudSpeeds;          // Her bir bulutun hızını saklar
-
+    private bool isMoving = false;        // Bulutların hareket etme durumu
+    public static CloudMovement Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
     void Start()
     {
         if (cloudsParent == null)
@@ -26,16 +40,12 @@ public class CloudManager : MonoBehaviour
 
         clouds = new GameObject[cloudCount];
         cloudSpeeds = new float[cloudCount];
-
-        for (int i = 0; i < cloudCount; i++)
-        {
-            SpawnCloud(i, Random.Range(spawnRightX - 5f, spawnRightX));
-        }
     }
-
 
     void Update()
     {
+        if (!isMoving) return; // Eğer hareket durumu aktif değilse, hiçbir şey yapma
+
         for (int i = 0; i < clouds.Length; i++)
         {
             if (clouds[i] != null)
@@ -50,6 +60,23 @@ public class CloudManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void StartCloudMovement()
+    {
+        // Bulutları spawn et ve hareket etmelerini başlat
+        for (int i = 0; i < cloudCount; i++)
+        {
+            SpawnCloud(i, Random.Range(spawnRightX - 5f, spawnRightX));
+        }
+
+        isMoving = true; // Hareketi aktif et
+    }
+
+    public void StopCloudMovement()
+    {
+        // Bulutları durdur
+        isMoving = false;
     }
 
     private void SpawnCloud(int index, float spawnX)

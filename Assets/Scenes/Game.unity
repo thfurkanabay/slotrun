@@ -6315,6 +6315,7 @@ MonoBehaviour:
   minTiles: 2
   maxTiles: 5
   spawnInterval: 3
+  collectablePrefab: {fileID: 7592794787373366182, guid: 7a44e15119afa43a5a1a7beabdfc7b33, type: 3}
 --- !u!1 &161715926
 GameObject:
   m_ObjectHideFlags: 0
@@ -40641,6 +40642,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669124360}
   m_CullTransparentMesh: 0
+--- !u!1 &705210365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 705210366}
+  - component: {fileID: 705210367}
+  m_Layer: 0
+  m_Name: Chapter Ground Sprites
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &705210366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705210365}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5442332154889203768}
+  - {fileID: 1864607515}
+  m_Father: {fileID: 1683674932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &705210367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705210365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f9e8702bd194928b38a305250016d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  ground1: {fileID: 7208103629462092083}
+  ground2: {fileID: 1864607514}
 --- !u!1 &716128166
 GameObject:
   m_ObjectHideFlags: 0
@@ -49645,8 +49695,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9ebbd297b7c224682a8f0d9526ce139e, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 544abfd93c2744a7fa9efc5f1b412e7b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -52546,10 +52596,12 @@ MonoBehaviour:
   chapterNameText: {fileID: 1052899669}
   chapterBackgroundImage: {fileID: 7902545135388994684}
   chapterGroundImage: {fileID: 7392729262089870291}
+  chapterGoalObjectImage: {fileID: 1057907428}
   characterSpawnPoint: {fileID: 576477939}
   chapters:
   - {fileID: 11400000, guid: 02fe27727f16f471e85f8cff3d33fd95, type: 2}
   currentChapterIndex: 0
+  currentGoalObjectImage: {fileID: 0}
 --- !u!1 &1369872288
 GameObject:
   m_ObjectHideFlags: 0
@@ -53396,6 +53448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cfbf746c0fd44ccaf8a282c0a1ab8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundMovement: {fileID: 705210367}
   currentGameState: 0
   currentLevel: {fileID: 0}
 --- !u!1 &1426714473
@@ -65983,8 +66036,7 @@ Transform:
   m_Children:
   - {fileID: 1429406140}
   - {fileID: 1625745866029563082}
-  - {fileID: 5442332154889203768}
-  - {fileID: 1864607515}
+  - {fileID: 705210366}
   - {fileID: 1750792545}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -87241,7 +87293,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1864607515}
   - component: {fileID: 1864607517}
-  - component: {fileID: 1864607518}
   - component: {fileID: 1864607519}
   m_Layer: 0
   m_Name: Chapter Ground Sprite (1)
@@ -87263,7 +87314,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1683674932}
+  m_Father: {fileID: 705210366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1864607517
 SpriteRenderer:
@@ -87317,20 +87368,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1864607518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1864607514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29f9e8702bd194928b38a305250016d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  ground2: {fileID: 7208103629462092083}
 --- !u!61 &1864607519
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -99354,7 +99391,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1683674932}
+  m_Father: {fileID: 705210366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7208103629462092083
 GameObject:
@@ -99366,7 +99403,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5442332154889203768}
   - component: {fileID: 7392729262089870291}
-  - component: {fileID: 7392729262089870292}
   - component: {fileID: 7392729262089870293}
   m_Layer: 0
   m_Name: Chapter Ground Sprite
@@ -99427,20 +99463,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7392729262089870292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7208103629462092083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29f9e8702bd194928b38a305250016d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  ground2: {fileID: 1864607514}
 --- !u!61 &7392729262089870293
 BoxCollider2D:
   m_ObjectHideFlags: 0

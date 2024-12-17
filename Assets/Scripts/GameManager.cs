@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // Singleton Pattern
 
+    public GroundMovement groundMovement;
+
     public enum GameState
     {
         MainMenu,
@@ -103,6 +105,14 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("ChapterManager instance is null!");
         }
+        // Player isPlayerDead false
         PlayerController.Instance.isPlayerDead = false;
+        // Spawn the obstscles
+        ObstacleSpawner.Instance.StartCoroutine(ObstacleSpawner.Instance.SpawnObstacleGroups());
+        //Start ground movemnet
+        groundMovement.StartMovement();
+        // Start cloud movement
+        CloudMovement.Instance.StartCloudMovement();
+
     }
 }

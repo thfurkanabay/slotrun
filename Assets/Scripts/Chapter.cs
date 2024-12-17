@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "NewChapter", menuName = "Game/Chapter")]
 public class Chapter : ScriptableObject
@@ -9,6 +10,8 @@ public class Chapter : ScriptableObject
     public Sprite chapterBackGroundSprite;
     public Sprite chapterGroundSprite;
     public GameObject chapterCharacter;
+    public List<Sprite> goalObjectImagelist;
 
     public List<Level> levels;
+
 }

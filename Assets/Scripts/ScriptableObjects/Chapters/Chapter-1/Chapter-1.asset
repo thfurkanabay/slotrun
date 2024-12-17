@@ -13,10 +13,21 @@ MonoBehaviour:
   m_Name: Chapter-1
   m_EditorClassIdentifier: 
   chapterName: Basketball Court
-  chapterDescription: 
+  chapterDescription: Basketball Concept Level
   chapterBackGroundSprite: {fileID: 21300000, guid: f0e3faced026a4f6fa3cf9ee609a942b, type: 3}
   chapterGroundSprite: {fileID: 21300000, guid: eaf5e93cf25ac4752b6e2adcef664893, type: 3}
   chapterCharacter: {fileID: 6326789263313391527, guid: fd8ac974f5f4242dd80e24f160bba16c, type: 3}
+  goalObjectImagelist:
+  - {fileID: 21300000, guid: 9ebbd297b7c224682a8f0d9526ce139e, type: 3}
+  - {fileID: 21300000, guid: 3551bc9c5becb4909adadb8b00447b0d, type: 3}
+  - {fileID: 21300000, guid: 6636ee508dcb142079dc2a128fd255a8, type: 3}
+  - {fileID: 21300000, guid: 106d3a7df95e640d592a567acf07620d, type: 3}
+  - {fileID: 21300000, guid: 40fd7f04c42514202abd7d356a41c3a2, type: 3}
+  - {fileID: 21300000, guid: 86553fe1c7b4b4d2eb145470062756cc, type: 3}
+  - {fileID: 21300000, guid: 58b9d5bd3db9e4e1b84c0681cecbe5a6, type: 3}
+  - {fileID: 21300000, guid: 5642ab952404c4680b7a46cd23589034, type: 3}
+  - {fileID: 21300000, guid: 121faf4da87b34acd933eb31a9d1851e, type: 3}
+  - {fileID: 21300000, guid: 587a024c9a03449848f1337d3c602407, type: 3}
   levels:
   - {fileID: 11400000, guid: 64d6984bac5f446dca7e31864dc1cf78, type: 2}
   - {fileID: 11400000, guid: db7d52d647ef6412b830827f5c55a8cd, type: 2}
