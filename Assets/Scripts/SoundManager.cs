@@ -59,6 +59,14 @@ public class SoundManager : MonoBehaviour
             musicSource.Stop();
         }
     }
+    public void StopSFX()
+    {
+        if (sfxSource != null)
+        {
+            sfxSource.Stop();
+        }
+    }
+
 
     public void PlaySFX(SoundEffect effect)
     {
@@ -108,6 +116,8 @@ public class SoundManager : MonoBehaviour
         ButtonClick,
         CollectiblePickup,
         MenuOpen,
-        GameOver
+        GameOver,
+        Spin,
+        ObjectAppear
     }
 }

@@ -22,6 +22,10 @@ public class ObstacleSpawner : MonoBehaviour
 
     public float spawnInterval = 3f;      // Spawn aralığı
 
+    public int selectedSlotItemIndex; // Seçilen slot item'ı
+
+    // Slot tarafından bildirilen öğeyi al
+
     public static ObstacleSpawner Instance;
 
     private void Awake()
@@ -45,6 +49,10 @@ public class ObstacleSpawner : MonoBehaviour
             Debug.LogError("Level GameObject is not assigned in the Inspector.");
             return;
         }
+    }
+    private void Update()
+    {
+
     }
 
     public IEnumerator SpawnObstacleGroups()
@@ -72,7 +80,7 @@ public class ObstacleSpawner : MonoBehaviour
         // Collectable nesne ekle (boşluk içinde)
         if (topStartY > bottomEndY) // Boşluk kontrolü
         {
-            SpawnCollectable(obstacleSet, bottomEndY, topStartY);
+            SpawnSlot(obstacleSet, bottomEndY, topStartY);
         }
 
         // Obstacle set hareket ettir
@@ -82,7 +90,7 @@ public class ObstacleSpawner : MonoBehaviour
     private float SpawnBottomSet(GameObject parent)
     {
         int tileCount = Random.Range(minTiles, maxTiles + 1);
-        Vector3 position = new Vector3(spawnStartPoint.position.x, bottomBound.position.y, -2); // Sabit Z değeri
+        Vector3 position = new Vector3(spawnStartPoint.position.x, bottomBound.position.y, -3); // Sabit Z değeri
 
         for (int i = 0; i < tileCount - 1; i++)
         {
@@ -102,7 +110,7 @@ public class ObstacleSpawner : MonoBehaviour
     private float SpawnUpSet(GameObject parent)
     {
         int tileCount = Random.Range(minTiles, maxTiles + 1);
-        Vector3 position = new Vector3(spawnStartPoint.position.x, topBound.position.y, -2); // Sabit Z değeri
+        Vector3 position = new Vector3(spawnStartPoint.position.x, topBound.position.y, -3);
 
         for (int i = 0; i < tileCount - 1; i++)
         {
@@ -113,57 +121,100 @@ public class ObstacleSpawner : MonoBehaviour
         }
 
         // En alta ters çevrilmiş tileUpPrefab yerleştir
-        GameObject bottomTile = Instantiate(tileUpPrefab, position, Quaternion.Euler(0, 0, 180)); // 180 derece döndür
+        GameObject bottomTile = Instantiate(tileUpPrefab, position, Quaternion.Euler(0, 0, 180));
         bottomTile.transform.SetParent(parent.transform);
 
         // Yüksekliği geri döndür (bottomTile'ın alt kısmı)
         return position.y - bottomTile.GetComponent<Renderer>().bounds.size.y;
     }
-    private void SpawnCollectable(GameObject parent, float bottomEndY, float topStartY)
+    private void SpawnSlot(GameObject parent, float bottomEndY, float topStartY)
+    {
+        float centerOfYBound = (bottomEndY + topStartY) / 2;
+        Vector3 positionSlot = new Vector3(spawnStartPoint.position.x, centerOfYBound, -2);
+
+        // Spawn the slot
+        GameObject slot = Instantiate(slotPrefab, positionSlot, Quaternion.identity);
+        Slot slotScript = slot.GetComponent<Slot>();
+
+        if (slotScript != null)
+        {
+            // Start coroutine for the slot
+            slotScript.StartCoroutine(slotScript.StopAndDestroySlot());
+        }
+
+        // Slot rotation adjustment
+        slot.transform.rotation = Quaternion.Euler(0, -90, 0);
+        slot.transform.SetParent(parent.transform);
+
+        // Wait until the slot is finished before spawning collectable
+        StartCoroutine(WaitForSlotToFinishAndSpawnCollectable(slotScript, parent, bottomEndY, topStartY));
+        //Spin Sound Effect
+        SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.Spin);
+
+    }
+
+    // Coroutine to wait for the slot to finish
+    private IEnumerator WaitForSlotToFinishAndSpawnCollectable(Slot slotScript, GameObject parent, float bottomEndY, float topStartY)
+    {
+        // Wait for the isSlotFinish flag to become true
+        while (!slotScript.isSlotStop)
+        {
+            yield return null; // Wait for the next frame
+        }
+
+        // Once the slot is finished, spawn the collectable
+        // We need to spawn the collectable at the updated position of the parent (obstacle set)
+        SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.ObjectAppear);
+        SpawnCollectable(parent, bottomEndY, topStartY);
+
+    }
+
+    public void SpawnCollectable(GameObject parent, float bottomEndY, float topStartY)
     {
         // Alt setin üst bitiş y pozisyonu ve üst setin alt başlangıç y pozisyonu arasında spawn
-        float randomY = Random.Range(bottomEndY, topStartY);
+        //float randomY = Random.Range(bottomEndY, topStartY);
+        float centerOfYBound = (bottomEndY + topStartY) / 2;
 
         // Pozisyon ayarla (Z ekseni sabit -2 olacak)
-        Vector3 position = new Vector3(spawnStartPoint.position.x, randomY, -2);
+        Vector3 position = new Vector3(parent.transform.position.x, centerOfYBound, -2); // Güncel parent pozisyonuna göre konumlandır
 
         // Collectable nesnesi oluştur
         GameObject collectable = Instantiate(collectablePrefab, position, Quaternion.identity);
-        GameObject slot = Instantiate(slotPrefab, position, Quaternion.identity);
-
-        // Slot'un rotasyonunu ayarla
-        slot.transform.rotation = Quaternion.Euler(0, -90, 0);
-
         collectable.transform.SetParent(parent.transform);
-        slot.transform.SetParent(parent.transform);
+        collectable.GetComponent<Animation>().Play();
 
-        // Rastgele bir sprite ata
-        SpriteRenderer renderer = collectable.GetComponent<SpriteRenderer>();
-        if (renderer != null)
+        if (selectedSlotItemIndex >= 0)  // Check if the index is valid
         {
-            Sprite randomSprite = GetRandomSprite();
-            renderer.sprite = randomSprite;
-
-            // Eğer atanan sprite'ın adı currentGoalObjectImage ile aynıysa tag değiştir
-            if (randomSprite.name == ChapterManager.Instance.currentGoalObjectImage.sprite.name)
+            Sprite selectedSprite = GetSpriteForSelectedItem(selectedSlotItemIndex);
+            if (selectedSprite != null)
             {
-                collectable.tag = "GoalObject";
+                SpriteRenderer renderer = collectable.GetComponent<SpriteRenderer>();
+                if (renderer != null)
+                {
+                    renderer.sprite = selectedSprite;
+
+                    // If the assigned sprite's name matches currentGoalObjectImage's sprite name, change the tag
+                    if (selectedSprite.name == ChapterManager.Instance.currentGoalObjectImage.sprite.name)
+                    {
+                        collectable.tag = "GoalObject";
+                    }
+                }
             }
         }
     }
-    private Sprite GetRandomSprite()
+    private Sprite GetSpriteForSelectedItem(int index)
     {
+        List<Sprite> spriteList = ChapterManager.Instance.chapters[ChapterManager.Instance.currentChapterIndex].goalObjectImagelist;        // Assuming you have an array or list of sprites
+        if (index >= 0 && index < spriteList.Count)  // Check for valid index
+        {
+            return spriteList[index];
+        }
+        return null;
+    }
 
-        List<Sprite> goalObjectImagelist = ChapterManager.Instance.chapters[ChapterManager.Instance.currentChapterIndex].goalObjectImagelist; // create new list
-        if (goalObjectImagelist != null && goalObjectImagelist.Count > 0)
-        {
-            int randomIndex = Random.Range(0, goalObjectImagelist.Count);
-            return goalObjectImagelist[randomIndex];
-        }
-        else
-        {
-            Debug.LogWarning("goalObjectImagelist boş veya tanımlı değil!");
-            return null;
-        }
+    public void AssignSlotItem(int item)
+    {
+        selectedSlotItemIndex = item;
+        Debug.Log("Selected Slot Item: " + selectedSlotItemIndex);
     }
 }

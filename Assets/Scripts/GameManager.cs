@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
         GameOver,
 
     }
+    public AudioClip menuMusic;
+
     private void Update()
     {
         Debug.Log("currentGameState: " + currentGameState);
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.MainMenu:
                 Debug.Log("Game State: Main Menu");
+                SoundManager.Instance.PlayMusic(menuMusic, true);
                 UIManager.Instance.OpenScreen("MainMenu");
                 Time.timeScale = 1; // Normal game time
                 break;
