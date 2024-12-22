@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("currentGameState: " + currentGameState);
+        //Debug.Log("currentGameState: " + currentGameState);
     }
     public GameState currentGameState; // Current state of the game
     public Level currentLevel;

@@ -13,5 +13,7 @@ public class Chapter : ScriptableObject
     public List<Sprite> goalObjectImagelist;
     public AudioClip chapterMX;
     public List<Level> levels;
+    public Sprite chapterIcon; // will be sent to UI
+
 
 }

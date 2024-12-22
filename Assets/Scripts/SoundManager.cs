@@ -79,6 +79,13 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"Sound effect '{effect}' not found in SoundManager.");
         }
     }
+    public void PlaySFXByName(string effectName)
+    {
+        if (System.Enum.TryParse(effectName, out SoundEffect effect))
+        {
+            PlaySFX(effect);
+        }
+    }
 
     public void UpdateVolumes()
     {
@@ -118,6 +125,7 @@ public class SoundManager : MonoBehaviour
         MenuOpen,
         GameOver,
         Spin,
-        ObjectAppear
+        ObjectAppear,
+        ObstacleAnim
     }
 }

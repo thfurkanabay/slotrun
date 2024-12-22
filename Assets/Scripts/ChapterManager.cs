@@ -5,15 +5,16 @@ using TMPro;
 
 public class ChapterManager : MonoBehaviour
 {
-    [Header("UI Elements")]
+    [Header("Chapter Elements")]
     public TextMeshProUGUI chapterNameText;
-    //public Text chapterDescriptionText;
+    public TextMeshProUGUI chapterDescriptionText;
     //public GameObject chapterBackgroundImage;
     public SpriteRenderer chapterBackgroundImage;
     public SpriteRenderer chapterGroundImage;
     public Image chapterGoalObjectImage;
     public Transform characterSpawnPoint;
     public AudioClip chapterMXClip;
+    public SpriteRenderer chapterIcon;
 
     public Slider goalSlider;
 
@@ -59,8 +60,8 @@ public class ChapterManager : MonoBehaviour
         if (chapterNameText != null)
             chapterNameText.text = chapter.chapterName;
 
-        //if (chapterDescriptionText != null)
-        //    chapterDescriptionText.text = chapter.chapterDescription;
+        if (chapterDescriptionText != null)
+            chapterDescriptionText.text = chapter.chapterDescription;
 
         // Set chapter background and ground images
         if (chapterBackgroundImage.sprite != null && chapter.chapterBackGroundSprite != null)
@@ -89,6 +90,14 @@ public class ChapterManager : MonoBehaviour
         {
             chapterMXClip = chapter.chapterMX;
         }
+        if (chapterIcon != null && chapter.chapterIcon != null)
+        {
+            chapterIcon.sprite = chapter.chapterIcon;
+        }
+
+
+
+
         // Set the goal amount for slider
         GoalSlider.Instance.InitializeGoal(chapter.levels[currentLevelIndex].goalObjectAmount);
     }
