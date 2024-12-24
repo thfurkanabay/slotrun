@@ -10,7 +10,7 @@ public class ChapterManager : MonoBehaviour
     public TextMeshProUGUI chapterDescriptionText;
     //public GameObject chapterBackgroundImage;
     public SpriteRenderer chapterBackgroundImage;
-    public SpriteRenderer chapterGroundImage;
+    //public SpriteRenderer chapterGroundImage;
     public Image chapterGoalObjectImage;
     public Transform characterSpawnPoint;
     public AudioClip chapterMXClip;
@@ -22,7 +22,7 @@ public class ChapterManager : MonoBehaviour
     public List<Chapter> chapters;
     public int currentChapterIndex = 0;
     public int currentLevelIndex = 0;
-    private GameObject spawnedCharacter;
+    public GameObject spawnedCharacter;
 
     public Image currentGoalObjectImage;
     public static ChapterManager Instance;
@@ -67,8 +67,8 @@ public class ChapterManager : MonoBehaviour
         if (chapterBackgroundImage.sprite != null && chapter.chapterBackGroundSprite != null)
             chapterBackgroundImage.sprite = chapter.chapterBackGroundSprite;
 
-        if (chapterGroundImage.sprite != null && chapter.chapterGroundSprite != null)
-            chapterGroundImage.sprite = chapter.chapterGroundSprite;
+        //        if (chapterGroundImage.sprite != null && chapter.chapterGroundSprite != null)
+        //           chapterGroundImage.sprite = chapter.chapterGroundSprite;
 
         if (chapter.chapterCharacter != null && characterSpawnPoint != null)
         {
@@ -94,9 +94,6 @@ public class ChapterManager : MonoBehaviour
         {
             chapterIcon.sprite = chapter.chapterIcon;
         }
-
-
-
 
         // Set the goal amount for slider
         GoalSlider.Instance.InitializeGoal(chapter.levels[currentLevelIndex].goalObjectAmount);

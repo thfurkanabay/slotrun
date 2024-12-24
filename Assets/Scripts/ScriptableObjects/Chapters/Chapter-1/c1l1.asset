@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: level1
   entryFee: 100
-  goalObjectAmount: 3
+  goalObjectAmount: 1
   levelSpeed: 3
   obstacleCount: 0
   rewardAmount: 100

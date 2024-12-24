@@ -17,6 +17,7 @@ public class CloudMovement : MonoBehaviour
     private float[] cloudSpeeds;          // Her bir bulutun hızını saklar
     private bool isMoving = false;        // Bulutların hareket etme durumu
     public static CloudMovement Instance;
+    public GameObject cloudObject;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -32,14 +33,7 @@ public class CloudMovement : MonoBehaviour
     }
     void Start()
     {
-        if (cloudsParent == null)
-        {
-            // Clouds adında bir GameObject oluştur ve bunu parent olarak ayarla.
-            cloudsParent = new GameObject("Clouds").transform;
-        }
 
-        clouds = new GameObject[cloudCount];
-        cloudSpeeds = new float[cloudCount];
     }
 
     void Update()
@@ -64,6 +58,16 @@ public class CloudMovement : MonoBehaviour
 
     public void StartCloudMovement()
     {
+        if (cloudsParent == null)
+        {
+            // Clouds adında bir GameObject oluştur ve bunu parent olarak ayarla.
+            cloudsParent = new GameObject("Clouds").transform;
+
+            cloudObject = cloudsParent.gameObject;
+        }
+
+        clouds = new GameObject[cloudCount];
+        cloudSpeeds = new float[cloudCount];
         // Bulutları spawn et ve hareket etmelerini başlat
         for (int i = 0; i < cloudCount; i++)
         {
@@ -84,6 +88,7 @@ public class CloudMovement : MonoBehaviour
         if (clouds[index] != null)
             Destroy(clouds[index]);
 
+
         // Rastgele bir bulut prefab seç
         GameObject selectedCloudPrefab = cloudPrefabs[Random.Range(0, cloudPrefabs.Count)];
 
@@ -99,5 +104,22 @@ public class CloudMovement : MonoBehaviour
 
         // Hızını rastgele belirle
         cloudSpeeds[index] = Random.Range(minSpeed, maxSpeed);
+    }
+    public void DestroyClouds()
+    {
+        if (cloudsParent != null)
+        {
+            // Clouds parent altındaki tüm çocukları yok et
+            foreach (Transform child in cloudsParent)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        // Bulut dizilerini temizle
+        clouds = null;
+        cloudSpeeds = null;
+
+        isMoving = false; // Hareketi durdur
     }
 }

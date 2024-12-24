@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class ObstacleSpawner : MonoBehaviour
 {
     [Header("Prefabs")]
-    public GameObject tilePrefab;         // Normal blok prefab
-    public GameObject tileUpPrefab;       // Üst blok prefab
+    public GameObject tilePrefab;
+    public GameObject tileUpPrefab;
     public GameObject collectablePrefab;
     public GameObject slotPrefab;
-    public GameObject tileAnimPrefab;         // Normal blok prefab
+    public GameObject tileAnimPrefab;
 
     [Header("Variables ")]
     public Transform topBound;            // Üst referans noktası
@@ -21,11 +21,14 @@ public class ObstacleSpawner : MonoBehaviour
     public float destroyXPosition = -10f; // Yok olma pozisyonu
     public int minTiles = 2;              // Minimum obje sayısı
     public int maxTiles = 8;              // Maksimum obje sayısı
-
     public float spawnInterval = 3f;      // Spawn aralığı
-
     public int selectedSlotItemIndex; // Seçilen slot item'ı
 
+    public bool isGameOn = false;
+
+    [Header("Obstacle Game Objects")]
+    public GameObject tileAnimGameObject;
+    public List<GameObject> obstaclesSetGameObjectList;
 
     public static ObstacleSpawner Instance;
 
@@ -50,6 +53,10 @@ public class ObstacleSpawner : MonoBehaviour
             Debug.LogError("Level GameObject is not assigned in the Inspector.");
             return;
         }
+        else
+        {
+            level.SetActive(false);
+        }
     }
     private void Update()
     {
@@ -58,7 +65,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     public IEnumerator SpawnObstacleGroups()
     {
-        while (true)
+        while (isGameOn)
         {
             // Tile animasyonu oynat
             yield return PlayTileAnimation();
@@ -77,6 +84,8 @@ public class ObstacleSpawner : MonoBehaviour
         // Tile objesini oluştur
         GameObject tileAnim = Instantiate(tileAnimPrefab, spawnStartPoint.position, Quaternion.identity);
         tileAnim.GetComponent<ObstacleMover>().Initialize(moveSpeed, destroyXPosition);
+        tileAnimGameObject = tileAnim;
+
         // Animation bileşenini al
         Animation animation = tileAnim.GetComponent<Animation>();
 
@@ -90,12 +99,14 @@ public class ObstacleSpawner : MonoBehaviour
         }
 
         // Animasyon tamamlandıktan sonra objenin son pozisyonunu al
-        Vector3 lastPosition = tileAnim.transform.position;
-
+        if (tileAnim != null)
+        {
+            Vector3 lastPosition = tileAnim.transform.position;
+            spawnStartPoint.position = lastPosition;
+            Destroy(tileAnim);
+        }
         // spawnStartPoint pozisyonunu son pozisyona eşitle
-        spawnStartPoint.position = lastPosition;
         // Animasyon tamamlandıktan sonra objeyi yok et
-        Destroy(tileAnim);
         SoundManager.Instance.StopSFX();
     }
     private void SpawnObstacleSet()
@@ -104,7 +115,9 @@ public class ObstacleSpawner : MonoBehaviour
         // ObstacleSet GameObject oluştur
         GameObject obstacleSet = new GameObject("ObstacleSet");
         obstacleSet.transform.position = spawnStartPoint.position; // Sağdan başlat
-        obstacleSet.transform.SetParent(level.transform);
+
+        //obstacleSet.transform.SetParent(level.transform);
+        obstaclesSetGameObjectList.Add(obstacleSet);
 
         // Toplam obstacle sayısını belirle
         int totalObstacles = Random.Range(minTiles * 2, maxTiles + 1);
@@ -112,21 +125,24 @@ public class ObstacleSpawner : MonoBehaviour
         // Alt ve üst obstacle sayısını belirle
         int bottomTileCount = Random.Range(1, totalObstacles); // Alt için bir sayı seç
         int topTileCount = totalObstacles - bottomTileCount;   // Üst için kalan sayıyı al
-
-        // Alt seti oluştur ve üst sınırı al
-        float bottomEndY = SpawnBottomSet(obstacleSet, bottomTileCount);
-
-        // Üst seti oluştur ve alt sınırı al
-        float topStartY = SpawnUpSet(obstacleSet, topTileCount);
-
-        // Collectable nesne ekle (boşluk içinde)
-        if (topStartY > bottomEndY) // Boşluk kontrolü
+        if (obstaclesSetGameObjectList != null)
         {
-            SpawnSlot(obstacleSet, bottomEndY, topStartY);
+            // Alt seti oluştur ve üst sınırı al
+            float bottomEndY = SpawnBottomSet(obstacleSet, bottomTileCount);
+
+            // Üst seti oluştur ve alt sınırı al
+            float topStartY = SpawnUpSet(obstacleSet, topTileCount);
+
+            // Collectable nesne ekle (boşluk içinde)
+            if (topStartY > bottomEndY) // Boşluk kontrolü
+            {
+                SpawnSlot(obstacleSet, bottomEndY, topStartY);
+            }
+
+            // Obstacle set hareket ettir
+            obstacleSet.AddComponent<ObstacleMover>().Initialize(moveSpeed, destroyXPosition);
         }
 
-        // Obstacle set hareket ettir
-        obstacleSet.AddComponent<ObstacleMover>().Initialize(moveSpeed, destroyXPosition);
     }
 
     private float SpawnBottomSet(GameObject parent, int tileCount)
@@ -258,4 +274,26 @@ public class ObstacleSpawner : MonoBehaviour
         selectedSlotItemIndex = item;
         Debug.Log("Selected Slot Item: " + selectedSlotItemIndex);
     }
+
+    public void LoseObstaceleSetting()
+    {
+        // Destroy Tile Anim if any
+        if (tileAnimGameObject != null)
+        {
+            Destroy(tileAnimGameObject);
+        }
+        // Sound of any SFX
+        SoundManager.Instance.StopSFX();
+
+        // Destroy ObdtacelSet if any
+        if (obstaclesSetGameObjectList != null)
+        {
+            for (int i = 0; i < obstaclesSetGameObjectList.Count; i++)
+            {
+                Destroy(obstaclesSetGameObjectList[i]);
+            }
+        }
+        isGameOn = false;
+    }
+
 }

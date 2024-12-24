@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObstacleMover : MonoBehaviour
 {
-    private float moveSpeed;
+    public float moveSpeed;
     private float destroyXPosition;
 
     public void Initialize(float speed, float destroyX)

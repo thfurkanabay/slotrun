@@ -19,6 +19,18 @@ public class SoundManager : MonoBehaviour
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
+
+    public enum SoundEffect
+    {
+        ButtonClick,
+        CollectiblePickup,
+        MenuOpen,
+        GameOver,
+        Spin,
+        ObjectAppear,
+        ObstacleAnim
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -40,6 +52,7 @@ public class SoundManager : MonoBehaviour
         {
             sfxDictionary.Add(soundClip.soundEffect, soundClip.clip);
         }
+
     }
 
     public void PlayMusic(AudioClip musicClip, bool loop = true)
@@ -118,14 +131,32 @@ public class SoundManager : MonoBehaviour
         public AudioClip clip;          // Corresponding AudioClip
     }
 
-    public enum SoundEffect
+    public IEnumerator SlowAndStopMusic()
     {
-        ButtonClick,
-        CollectiblePickup,
-        MenuOpen,
-        GameOver,
-        Spin,
-        ObjectAppear,
-        ObstacleAnim
+        float startPitch = musicSource.pitch;
+        float startVolume = musicSource.volume;
+        float elapsedTime = 0f;
+        float fadeDuration = 2f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / fadeDuration;
+
+            musicSource.pitch = Mathf.Lerp(startPitch, 0.1f, progress);
+            musicSource.volume = Mathf.Lerp(startVolume, 0f, progress);
+            yield return null;
+        }
+
+        musicSource.Stop();
+        musicSource.pitch = 1f;
+    }
+    public void ResetMusic()
+    {
+        if (musicSource != null)
+        {
+            musicSource.pitch = 1f;
+            musicSource.volume = musicVolume;
+        }
     }
 }

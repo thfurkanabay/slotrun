@@ -8,20 +8,36 @@ public class GameManager : MonoBehaviour
 
     public GroundMovement groundMovement;
 
+    public GameObject tapAnimGameObject;
+
     public enum GameState
     {
         MainMenu,
-        GameScreen,
         GameStart,
-        Paused,
+
+        GameWaiting,
+        GamePlaying,
+        GamePaused,
+        GameWon,
+        GameLose,
         GameOver,
 
+    }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Önceki instance'ı yok et
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // Sahne geçişlerinde kalıcı yap
     }
     public AudioClip menuMusic;
 
     private void Update()
     {
-        //Debug.Log("currentGameState: " + currentGameState);
+        Debug.Log("currentGameState: " + currentGameState);
     }
     public GameState currentGameState; // Current state of the game
     public Level currentLevel;
@@ -50,29 +66,30 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1; // Normal game time
                 break;
 
-            case GameState.GameScreen:
+            case GameState.GameWaiting:
+                Debug.Log("Game State: Waiting");
+                UIManager.Instance.OpenScreen("Game");
+                Time.timeScale = 1; // Resume normal gameplay
+                break;
+            case GameState.GamePlaying:
                 Debug.Log("Game State: Playing");
                 UIManager.Instance.OpenScreen("Game");
                 Time.timeScale = 1; // Resume normal gameplay
                 break;
 
-            case GameState.Paused:
+            case GameState.GamePaused:
                 Debug.Log("Game State: Paused");
                 UIManager.Instance.OpenScreen("PauseMenu");
                 Time.timeScale = 0; // Freeze game time
                 break;
-
-            case GameState.GameOver:
-                Debug.Log("Game State: Game Over");
-                UIManager.Instance.OpenScreen("GameOver");
-                Time.timeScale = 0; // Freeze game time
+            case GameState.GameWon:
+                Debug.Log("Game State: Game Won");
+                UIManager.Instance.OpenPopup("PopupWon");
                 break;
-            case GameState.GameStart:
-                Debug.Log("Game State: Game Start");
-                //sUIManager.Instance.OpenScreen("GameOver");
-                Time.timeScale = 1; // Freeze game time
+            case GameState.GameLose:
+                Debug.Log("Game State: Game Lose");
+                UIManager.Instance.OpenPopup("PopupLose");
                 break;
-
             default:
                 Debug.LogWarning("Unhandled game state!");
                 break;
@@ -82,35 +99,87 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        ChangeGameState(GameState.Paused);
+        ChangeGameState(GameState.GamePaused);
+    }
+    public void BackToMainMenu()
+    {
+        ChangeGameState(GameState.MainMenu);
+        SoundManager.Instance.ResetMusic();
+        groundMovement.StopMovement();
     }
 
     public void ResumeGame()
     {
-        ChangeGameState(GameState.GameScreen);
+        ChangeGameState(GameState.GamePlaying);
     }
 
     public void GameOver()
     {
         ChangeGameState(GameState.GameOver);
+
     }
 
-    public void StartGame()
+    public void GameLose()
     {
-        // play chapter MX
-        ChapterManager.Instance.PlayChapterMX();
+        ChangeGameState(GameState.GameLose);
+        ObstacleSpawner.Instance.LoseObstaceleSetting();
+        CloudMovement.Instance.DestroyClouds();
+        StartCoroutine(SoundManager.Instance.SlowAndStopMusic());
+
+    }
+    public void GameWon()
+    {
+        ChangeGameState(GameState.GameWon);
+        ObstacleSpawner.Instance.LoseObstaceleSetting();
+        CloudMovement.Instance.DestroyClouds();
+
+        //StartCoroutine(SoundManager.Instance.SlowAndStopMusic());
+
+    }
+
+    public void StartPlaying()
+    {
+        PlayerController.Instance.SetPlayerGravityScale(1.0f);
+        ObstacleSpawner.Instance.isGameOn = true;
         // Change the gamstate
-        ChangeGameState(GameState.GameStart);
-        UIManager.Instance.OpenScreen("Game");
-        ChapterManager.Instance.LoadChapterByIndex(ChapterManager.Instance.currentChapterIndex);
+        ChangeGameState(GameState.GamePlaying);
+        PlayerController.Instance.currentState = GameState.GamePlaying;
         // Player isPlayerDead false
         PlayerController.Instance.isPlayerDead = false;
         // Spawn the obstscles
         ObstacleSpawner.Instance.StartCoroutine(ObstacleSpawner.Instance.SpawnObstacleGroups());
         //Start ground movemnet
-        groundMovement.StartMovement();
         // Start cloud movement
         CloudMovement.Instance.StartCloudMovement();
+    }
+    public void StartGame()
+    {
+        tapAnimGameObject.SetActive(true);
+        ObstacleSpawner.Instance.level.SetActive(true);
+        ChapterManager.Instance.PlayChapterMX();
+        // Change the gamstate
+        ChangeGameState(GameState.GameWaiting);
+        UIManager.Instance.OpenScreen("Game");
+        ChapterManager.Instance.LoadChapterByIndex(ChapterManager.Instance.currentChapterIndex);
+        // Player isPlayerDead false
+        PlayerController.Instance.isPlayerDead = false;
+        // Spawn the obstscles
+        //Start ground movemnet
+        groundMovement.StartMovement();
+        // Start cloud movement
+
+        //CloudMovement.Instance.StartCloudMovement();
+    }
+
+    public void OnScreenTap()
+    {
+        Debug.Log("Tap the screen");
+        if (currentGameState == GameState.GameWaiting)
+        {
+            tapAnimGameObject.SetActive(false);
+            StartPlaying();  // Start the game logic
+            PlayerController.Instance.Jump();
+        }
     }
 
 }

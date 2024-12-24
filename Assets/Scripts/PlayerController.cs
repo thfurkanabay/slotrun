@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public GameManager.GameState currentState = GameManager.GameState.GameScreen;
+    public GameManager.GameState currentState = GameManager.GameState.GameWaiting;
 
     public float jumpForce = 5f;
     private Rigidbody2D rb;
@@ -28,14 +28,19 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject); // Sahne değişimlerinde bile kalıcı yap
     }
 
+    private void Start()
+    {
+        rb.gravityScale = 0;
+    }
     private void Update()
     {
-        if (currentState == GameManager.GameState.GameScreen && Input.GetMouseButtonDown(0))
+        Debug.Log("currentState" + currentState);
+        if (currentState == GameManager.GameState.GamePlaying && Input.GetMouseButtonDown(0))
         {
             Jump();
         }
     }
-    private void Jump()
+    public void Jump()
     {
         rb.velocity = Vector2.up * jumpForce;
     }
@@ -45,6 +50,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             Debug.Log("Collided with Obstacle");
+            Destroy(gameObject);
             HandleDeath(); // Ölüm sonrası işlemleri çağır
         }
         else if (other.CompareTag("Collectible"))
@@ -59,6 +65,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Collided with Goal Object");
             GoalSlider.Instance.IncrementGoalProgress();
+            ChapterManager.Instance.chapterGoalObjectImage.GetComponent<Animation>().Play(); // play the goal object animation
             SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.CollectiblePickup);
             Destroy(other.gameObject);
             //HandleCollectiblePickup();
@@ -73,6 +80,15 @@ public class PlayerController : MonoBehaviour
     private void HandleDeath()
     {
         isPlayerDead = true;
-        //GameManager.Instance.StartGame();
+        GameManager.Instance.GameLose();
+
     }
+    public void SetPlayerGravityScale(float rbValue)
+    {
+        rb.gravityScale = rbValue;
+    }
+    /*public void SetStart()
+    {
+
+    }*/
 }

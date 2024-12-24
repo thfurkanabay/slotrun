@@ -94,5 +94,8 @@ public class GoalSlider : MonoBehaviour
         Debug.Log("Goal Completed");
         //completionText.text = "Completed!";
         //completionText.gameObject.SetActive(true);
+        GameManager.Instance.GameWon();
+
+        Destroy(PlayerController.Instance.gameObject);
     }
 }
