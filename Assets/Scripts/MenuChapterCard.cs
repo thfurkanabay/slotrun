@@ -8,10 +8,13 @@ public class MenuChapterCard : MonoBehaviour
     public Image chapterIcon;
 
     public PopupInfo popupInfo;
+    public PopupLevel popupLevel;
+
 
     void Start()
     {
         LoadChapterInformaitons();
+
     }
 
     public void LoadChapterInformaitons()
@@ -21,9 +24,10 @@ public class MenuChapterCard : MonoBehaviour
 
     public void InformationButtonClick()
     {
-
         if (popupInfo != null)
         {
+            ChapterManager.Instance.currentChapterIndex = chapterNo;
+
             // Şu anki kartın bilgilerini Popup'a gönder
             popupInfo.SetChapterCard(this);
             UIManager.Instance.OpenPopup("PopupDescription");
@@ -31,6 +35,20 @@ public class MenuChapterCard : MonoBehaviour
         else
         {
             Debug.LogError("PopupInfo bulunamadı!");
+        }
+    }
+    public void LevelButtonClick()
+    {
+        if (popupLevel != null)
+        {
+            // Şu anki kartın bilgilerini Popup'a gönder
+            popupLevel.SetLevelCard(this);
+
+            UIManager.Instance.OpenPopup("PopupLevel");
+        }
+        else
+        {
+            Debug.LogError("PopupLevel bulunamadı!");
         }
     }
 }
