@@ -103,6 +103,7 @@ MonoBehaviour:
   jumpForce: 5
   isPlayerDead: 0
   spawnPoint: {fileID: 0}
+  popupLose: {fileID: 1191005926122694060, guid: c2278b5b503d0474d8a62ac0f0cb7604, type: 3}
 --- !u!50 &6464011457076512384
 Rigidbody2D:
   serializedVersion: 4

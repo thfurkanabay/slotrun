@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,10 +15,11 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField] private List<Panel> screens; // Tüm ana ekranların listesi
-    [SerializeField] private List<Panel> popups;  // Tüm popup pencerelerin listesi
+    [SerializeField] private List<Popup> popups;  // Tüm popup pencerelerin listesi
 
     private GameObject currentScreen; // Şu anda aktif olan ana ekran
     private Stack<GameObject> activePopups = new Stack<GameObject>(); // Aktif popup'ları takip eder
+    public Button coinCollectionButton;
 
     private void Awake()
     {
@@ -60,8 +62,9 @@ public class UIManager : MonoBehaviour
         {
             if (popup.name == popupName)
             {
-                popup.panel.SetActive(true);
-                activePopups.Push(popup.panel); // Popup'ı yığına ekle
+                popup.OpenPopup();
+                popup.gameObject.SetActive(true);
+                activePopups.Push(popup.gameObject); // Popup'ı yığına ekle
                 return;
             }
         }
@@ -72,12 +75,23 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// En üstteki popup'ı kapatır.
     /// </summary>
+    /// <summary>
+    /// En üstteki popup'ı kapatır.
+    /// </summary>
     public void CloseTopPopup()
     {
         if (activePopups.Count > 0)
         {
             var popupToClose = activePopups.Pop();
-            popupToClose.SetActive(false);
+            var popupComponent = popupToClose.GetComponent<Popup>();
+            if (popupComponent != null)
+            {
+                popupComponent.ClosePopup();
+            }
+            else
+            {
+                Debug.LogWarning("Popup component not found on the GameObject.");
+            }
         }
         else
         {
@@ -93,7 +107,20 @@ public class UIManager : MonoBehaviour
         while (activePopups.Count > 0)
         {
             var popupToClose = activePopups.Pop();
-            popupToClose.SetActive(false);
+            var popupComponent = popupToClose.GetComponent<Popup>();
+            if (popupComponent != null)
+            {
+                popupComponent.ClosePopup();
+            }
+            else
+            {
+                Debug.LogWarning("Popup component not found on the GameObject.");
+            }
         }
     }
+    /*public void CoinCollectionButton()
+    {
+        CoinCollection.Instance.CollectCoinsInSequence(coinCollectionButton.transform.position, 2);
+
+    }*/
 }

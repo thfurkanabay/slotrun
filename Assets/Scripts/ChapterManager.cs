@@ -10,7 +10,9 @@ public class ChapterManager : MonoBehaviour
     public TextMeshProUGUI chapterDescriptionText;
     //public GameObject chapterBackgroundImage;
     public SpriteRenderer chapterBackgroundImage;
-    //public SpriteRenderer chapterGroundImage;
+    public SpriteRenderer chapterGroundImage1;
+    public SpriteRenderer chapterGroundImage2;
+
     public Image chapterGoalObjectImage;
     public Transform characterSpawnPoint;
     public AudioClip chapterMXClip;
@@ -56,6 +58,9 @@ public class ChapterManager : MonoBehaviour
 
     public void LoadChapter(Chapter chapter)
     {
+        //Debug.Log("chapter: " + chapter);
+        //Debug.Log("chapter bggrond: " + chapter.chapterBackGroundSprite);
+
         // Set chapter name and description
         if (chapterNameText != null)
             chapterNameText.text = chapter.chapterName;
@@ -67,8 +72,10 @@ public class ChapterManager : MonoBehaviour
         if (chapterBackgroundImage.sprite != null && chapter.chapterBackGroundSprite != null)
             chapterBackgroundImage.sprite = chapter.chapterBackGroundSprite;
 
-        //        if (chapterGroundImage.sprite != null && chapter.chapterGroundSprite != null)
-        //           chapterGroundImage.sprite = chapter.chapterGroundSprite;
+        if (chapterGroundImage1.sprite != null && chapter.chapterGroundSprite != null)
+            chapterGroundImage1.sprite = chapter.chapterGroundSprite;
+        if (chapterGroundImage2.sprite != null && chapter.chapterGroundSprite != null)
+            chapterGroundImage2.sprite = chapter.chapterGroundSprite;
 
         if (chapter.chapterCharacter != null && characterSpawnPoint != null)
         {

@@ -30,7 +30,8 @@ public class MenuChapterCard : MonoBehaviour
 
             // Şu anki kartın bilgilerini Popup'a gönder
             popupInfo.SetChapterCard(this);
-            UIManager.Instance.OpenPopup("PopupDescription");
+            //popupInfo.OpenPopup();
+            UIManager.Instance.OpenPopup("Popup_Chapter_Information");
         }
         else
         {
@@ -43,8 +44,7 @@ public class MenuChapterCard : MonoBehaviour
         {
             // Şu anki kartın bilgilerini Popup'a gönder
             popupLevel.SetLevelCard(this);
-
-            UIManager.Instance.OpenPopup("PopupLevel");
+            UIManager.Instance.OpenPopup("Popup_Level");
         }
         else
         {

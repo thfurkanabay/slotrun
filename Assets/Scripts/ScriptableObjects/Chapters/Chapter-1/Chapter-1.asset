@@ -17,6 +17,7 @@ MonoBehaviour:
   chapterBackGroundSprite: {fileID: 21300000, guid: f0e3faced026a4f6fa3cf9ee609a942b, type: 3}
   chapterGroundSprite: {fileID: 21300000, guid: eaf5e93cf25ac4752b6e2adcef664893, type: 3}
   chapterCharacter: {fileID: 6326789263313391527, guid: fd8ac974f5f4242dd80e24f160bba16c, type: 3}
+  chapterCharacterLosePose: {fileID: 21300000, guid: 5d34371de1f924d219e21eede03e9c81, type: 3}
   goalObjectImagelist:
   - {fileID: 21300000, guid: 121faf4da87b34acd933eb31a9d1851e, type: 3}
   - {fileID: 21300000, guid: 9ebbd297b7c224682a8f0d9526ce139e, type: 3}

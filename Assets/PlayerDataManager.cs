@@ -11,6 +11,8 @@ public class PlayerDataManager : MonoBehaviour
     public int completedLevel;
 
     public UserManager userManager;
+    public static PlayerDataManager Instance;
+
 
     private string[] randomNames =
     {
@@ -25,13 +27,25 @@ public class PlayerDataManager : MonoBehaviour
         "ThunderClaw",
         "SilverArrow"
     };
+    private void Awake()
+    {
+        if (Instance != null && Instance != gameObject)
+        {
+            Destroy(this);
+            return;
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
+    }
     void Start()
     {
-        GenerateRandomPlayerName(); // Eğer bir isim yoksa rastgele oluştur
-        userManager.InitializeUser();
-        SavePlayerData();           // İlk veri kaydını yap
-
+        LoadPlayerData(); // Önce kaydedilmiş verileri yükle
+        GenerateRandomPlayerName(); // Eğer isim yoksa rastgele oluştur
+        userManager.InitializeUser(); // UI'yı güncelle
     }
 
     public void GenerateRandomPlayerName()

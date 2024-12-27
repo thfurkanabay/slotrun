@@ -9,11 +9,11 @@ public class Popup : MonoBehaviour
 
     private bool isAnimating = false;
 
-    // Popup'ı açma fonksiyonu
     public void OpenPopup()
     {
         if (!isAnimating && popupAnimation != null)
         {
+            Debug.Log("Popup Open");
             gameObject.SetActive(true); // Popup'ı aktif hale getir
             isAnimating = true;
             popupAnimation.Play(openPopupAnimation);
@@ -24,6 +24,8 @@ public class Popup : MonoBehaviour
     // Popup'ı kapatma fonksiyonu
     public void ClosePopup()
     {
+        Debug.Log("Popup Close");
+
         if (!isAnimating && popupAnimation != null)
         {
             isAnimating = true;

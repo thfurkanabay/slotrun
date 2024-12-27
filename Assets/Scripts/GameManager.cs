@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public GroundMovement groundMovement;
 
     public GameObject tapAnimGameObject;
+    public EntryFee entryFee;
+
 
     public enum GameState
     {
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
     {
         ChangeGameState(GameState.MainMenu);
         UIManager.Instance.OpenScreen("MainMenu"); // Open the Main Menu Panel
+
     }
 
     public void ChangeGameState(GameState newState)
@@ -84,18 +87,17 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameWon:
                 Debug.Log("Game State: Game Won");
-                UIManager.Instance.OpenPopup("PopupWon");
+                UIManager.Instance.OpenPopup("Popup_Won");
                 break;
             case GameState.GameLose:
                 Debug.Log("Game State: Game Lose");
-                UIManager.Instance.OpenPopup("PopupLose");
+                UIManager.Instance.OpenPopup("Popup_Lose");
                 break;
             default:
                 Debug.LogWarning("Unhandled game state!");
                 break;
         }
     }
-
 
     public void PauseGame()
     {
@@ -126,6 +128,14 @@ public class GameManager : MonoBehaviour
         CloudMovement.Instance.DestroyClouds();
         StartCoroutine(SoundManager.Instance.SlowAndStopMusic());
 
+        if (PopupLose.Instance != null)
+        {
+            PopupLose.Instance.SetLosePopup();
+        }
+        else
+        {
+            Debug.Log("PopupLose instance is null!");
+        }
     }
     public void GameWon()
     {
@@ -161,7 +171,10 @@ public class GameManager : MonoBehaviour
         ChangeGameState(GameState.GameWaiting);
         UIManager.Instance.OpenScreen("Game");
         ChapterManager.Instance.LoadChapterByIndex(ChapterManager.Instance.currentChapterIndex);
-        // Player isPlayerDead false
+
+        int entryFeeAmount = int.Parse(entryFee.entryFeeText.text); // entryFeeText'in doğru bir string olduğundan emin olun.
+        UserManager.Instance.DecreaseCoins(entryFeeAmount);        // Player isPlayerDead false
+
         PlayerController.Instance.isPlayerDead = false;
         // Spawn the obstscles
         //Start ground movemnet

@@ -13,10 +13,22 @@ public class UserManager : MonoBehaviour
 
     public PlayerDataManager playerDataManager;
 
-    void Start()
-    {
+    public static UserManager Instance;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
+
     public void InitializeUser()
     {
         playerDataManager = FindObjectOfType<PlayerDataManager>();
@@ -31,23 +43,24 @@ public class UserManager : MonoBehaviour
 
         Debug.Log("playerNameText:" + playerNameText);
         playerNameText.text = playerDataManager.playerName;
-
+        PlayerDataManager.Instance.SavePlayerData();
         // Dropdown'u güncelle
         //completedLevelDropdown.value = playerDataManager.completedLevel;
     }
 
-    public void IncreaseCoins()
+    public void IncreaseCoins(int amount)
     {
-        playerDataManager.playerCoins += 100; // Parayı artır
+        playerDataManager.playerCoins += amount; // Parayı artır
         playerDataManager.SavePlayerData();   // Kaydet
         UpdateUI();                           // UI'yı güncelle
     }
 
-    public void DecreaseCoins()
+
+    public void DecreaseCoins(int amount)
     {
         if (playerDataManager.playerCoins > 0)
         {
-            playerDataManager.playerCoins -= 100; // Parayı azalt
+            playerDataManager.playerCoins -= amount; // Parayı azalt
             playerDataManager.SavePlayerData();   // Kaydet
             UpdateUI();                           // UI'yı güncelle
         }

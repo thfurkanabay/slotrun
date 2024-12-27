@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapterName: Chritmas Trees
   chapterDescription: Christmas Concept Level
-  chapterBackGroundSprite: {fileID: 21300000, guid: f0e3faced026a4f6fa3cf9ee609a942b, type: 3}
-  chapterGroundSprite: {fileID: 21300000, guid: eaf5e93cf25ac4752b6e2adcef664893, type: 3}
+  chapterBackGroundSprite: {fileID: 21300000, guid: 1eb9bedb878194e9c99354b0e46285cd, type: 3}
+  chapterGroundSprite: {fileID: 21300000, guid: 422f59d2dbf4f4b4ca5fd25fad7802c9, type: 3}
   chapterCharacter: {fileID: 6326789263313391527, guid: d4b3d02d7b4cf40278932516fac82fe8, type: 3}
+  chapterCharacterLosePose: {fileID: 21300000, guid: 3e5f00a10a08f40b0a5cb3e7913ef44b, type: 3}
   goalObjectImagelist:
   - {fileID: 21300000, guid: 121faf4da87b34acd933eb31a9d1851e, type: 3}
   - {fileID: 21300000, guid: 9ebbd297b7c224682a8f0d9526ce139e, type: 3}

@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController Instance;
 
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -56,15 +58,19 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Collectible"))
         {
             Debug.Log("Collided with other Collectibles");
+
+
+            // Coin toplama animasyonunu başlat
+            CoinCollection.Instance.CollectCoinsInSequence(other.transform.position, 3);
             SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.CollectiblePickup);
             Destroy(other.gameObject);
-
-            //HandleCollectiblePickup();
         }
         else if (other.CompareTag("GoalObject"))
         {
             Debug.Log("Collided with Goal Object");
             GoalSlider.Instance.IncrementGoalProgress();
+            CoinCollection.Instance.CollectCoinsInSequence(other.transform.position, 3);
+
             ChapterManager.Instance.chapterGoalObjectImage.GetComponent<Animation>().Play(); // play the goal object animation
             SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.CollectiblePickup);
             Destroy(other.gameObject);
@@ -87,8 +93,5 @@ public class PlayerController : MonoBehaviour
     {
         rb.gravityScale = rbValue;
     }
-    /*public void SetStart()
-    {
 
-    }*/
 }
