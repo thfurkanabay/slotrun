@@ -13,12 +13,15 @@ public class EntryFee : MonoBehaviour
     public int minFee = 0;               // Minimum giriş ücreti
     public int maxFee = 10000;           // Maksimum giriş ücreti
 
-    private int currentFee = 0; // Şu anki giriş ücreti
+    public int currentFee = 0; // Şu anki giriş ücreti
+
+    public RewardsController chapterRewardSystem;
 
 
     void Start()
     {
         LoadLevelFee();   // Başlangıç giriş ücretini çek
+        chapterRewardSystem.LoadRewards();
         UpdateFeeText();  // UI'yı güncelle
     }
 
@@ -44,7 +47,12 @@ public class EntryFee : MonoBehaviour
         {
             currentFee += levelFeeMultiplier;
             UpdateFeeText();
+            chapterRewardSystem.LoadRewards();
+            chapterRewardSystem.UpdateRewardTexts();
+
+
         }
+
     }
 
     // - Butonuna tıklandığında çağrılır
@@ -54,7 +62,13 @@ public class EntryFee : MonoBehaviour
         {
             currentFee -= levelFeeMultiplier;
             UpdateFeeText();
+            chapterRewardSystem.LoadRewards();
+            chapterRewardSystem.UpdateRewardTexts();
+
+
         }
+
+
     }
 
     // UI'yı güncellemek için kullanılan metot

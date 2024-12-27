@@ -32,6 +32,8 @@ public class ObstacleSpawner : MonoBehaviour
 
     public static ObstacleSpawner Instance;
 
+    public Material chapterSlotMaterial;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -147,7 +149,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private float SpawnBottomSet(GameObject parent, int tileCount)
     {
-        Vector3 position = new Vector3(spawnStartPoint.position.x, bottomBound.position.y, -3); // Sabit Z değeri
+        Vector3 position = new Vector3(spawnStartPoint.position.x, bottomBound.position.y, -2); // Sabit Z değeri
 
         for (int i = 0; i < tileCount - 1; i++)
         {
@@ -167,7 +169,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private float SpawnUpSet(GameObject parent, int tileCount)
     {
-        Vector3 position = new Vector3(spawnStartPoint.position.x, topBound.position.y, -3);
+        Vector3 position = new Vector3(spawnStartPoint.position.x, topBound.position.y, -2);
 
         for (int i = 0; i < tileCount - 1; i++)
         {
@@ -189,25 +191,45 @@ public class ObstacleSpawner : MonoBehaviour
         float centerOfYBound = (bottomEndY + topStartY) / 2;
         Vector3 positionSlot = new Vector3(spawnStartPoint.position.x, centerOfYBound, -2);
 
-        // Spawn the slot
+        // Slot prefab'ını instantiate et
         GameObject slot = Instantiate(slotPrefab, positionSlot, Quaternion.identity);
-        Slot slotScript = slot.GetComponent<Slot>();
 
+        // Slot'un mesh renderer bileşenine ulaş
+        MeshRenderer meshRenderer = slot.GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            // Mevcut materyali al
+            Material slotMaterial = meshRenderer.material;
+
+            // ChapterManager üzerinden materyal sprite'ını al
+            Sprite chapterSprite = ChapterManager.Instance.chapters[ChapterManager.Instance.currentChapterIndex].chapterItemsMaterialSprite;
+
+            if (slotMaterial != null && chapterSprite != null)
+            {
+                // Sprite'ı bir Texture2D'ye dönüştür
+                Texture2D texture = chapterSprite.texture;
+
+                // Material'in texture'ını değiştir
+                slotMaterial.mainTexture = texture;
+            }
+        }
+
+        // Slot script'i al ve coroutine başlat
+        Slot slotScript = slot.GetComponent<Slot>();
         if (slotScript != null)
         {
-            // Start coroutine for the slot
             slotScript.StartCoroutine(slotScript.StopAndDestroySlot());
         }
 
-        // Slot rotation adjustment
+        // Slot'un rotasyonunu ayarla
         slot.transform.rotation = Quaternion.Euler(0, -90, 0);
         slot.transform.SetParent(parent.transform);
 
-        // Wait until the slot is finished before spawning collectable
+        // Slot tamamlandığında collectable spawn et
         StartCoroutine(WaitForSlotToFinishAndSpawnCollectable(slotScript, parent, bottomEndY, topStartY));
-        //Spin Sound Effect
-        SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.Spin);
 
+        // Spin ses efekti oynat
+        SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.Spin);
     }
 
     // Coroutine to wait for the slot to finish
@@ -295,5 +317,26 @@ public class ObstacleSpawner : MonoBehaviour
         }
         isGameOn = false;
     }
+    private void UpdateSlotMaterial(GameObject slot)
+    {
+        Renderer slotRenderer = slot.GetComponent<Renderer>();
+        if (slotRenderer != null && chapterSlotMaterial != null)
+        {
+            // Yeni materyali ayarla
+            slotRenderer.material = chapterSlotMaterial;
 
+            // Materyalin sprite'ını güncelle
+            if (ChapterManager.Instance != null &&
+                ChapterManager.Instance.chapters != null &&
+                ChapterManager.Instance.currentChapterIndex < ChapterManager.Instance.chapters.Count)
+            {
+                Sprite chapterSprite = ChapterManager.Instance.chapters[ChapterManager.Instance.currentChapterIndex].chapterItemsMaterialSprite;
+
+                if (chapterSprite != null)
+                {
+                    slotRenderer.material.mainTexture = chapterSprite.texture;
+                }
+            }
+        }
+    }
 }

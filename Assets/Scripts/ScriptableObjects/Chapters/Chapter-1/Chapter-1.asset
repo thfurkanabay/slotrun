@@ -18,6 +18,7 @@ MonoBehaviour:
   chapterGroundSprite: {fileID: 21300000, guid: eaf5e93cf25ac4752b6e2adcef664893, type: 3}
   chapterCharacter: {fileID: 6326789263313391527, guid: fd8ac974f5f4242dd80e24f160bba16c, type: 3}
   chapterCharacterLosePose: {fileID: 21300000, guid: 5d34371de1f924d219e21eede03e9c81, type: 3}
+  chapterItemsMaterialSprite: {fileID: 21300000, guid: 6a3b61253620d41d181c2e883e69be7b, type: 3}
   goalObjectImagelist:
   - {fileID: 21300000, guid: 121faf4da87b34acd933eb31a9d1851e, type: 3}
   - {fileID: 21300000, guid: 9ebbd297b7c224682a8f0d9526ce139e, type: 3}
@@ -34,3 +35,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64d6984bac5f446dca7e31864dc1cf78, type: 2}
   - {fileID: 11400000, guid: db7d52d647ef6412b830827f5c55a8cd, type: 2}
   chapterIcon: {fileID: 21300000, guid: 538e478b1a0564911b5adb5d796f1dd7, type: 3}
+  coinsReward: 1000
+  gemsReward: 10
+  specialRewardIcon: {fileID: 0}
+  specialRewardDescription: 
