@@ -72,12 +72,18 @@ public class ObstacleSpawner : MonoBehaviour
             // Tile animasyonu oynat
             yield return PlayTileAnimation();
 
+            // Eğer oyun devam etmiyorsa çık
+            if (!isGameOn) yield break;
+
             // Animasyon tamamlandıktan sonra obstacle set oluştur
             SpawnObstacleSet();
             spawnStartPoint.position = new Vector3(8.71f, 0, -1);
 
             // Spawn aralığı kadar bekle
             yield return new WaitForSeconds(spawnInterval);
+
+            // Eğer oyun devam etmiyorsa çık
+            if (!isGameOn) yield break;
         }
     }
     private IEnumerator PlayTileAnimation()
@@ -304,9 +310,6 @@ public class ObstacleSpawner : MonoBehaviour
         {
             Destroy(tileAnimGameObject);
         }
-        // Sound of any SFX
-        SoundManager.Instance.StopSFX();
-
         // Destroy ObdtacelSet if any
         if (obstaclesSetGameObjectList != null)
         {

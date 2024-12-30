@@ -8,12 +8,18 @@ public class RewardsController : MonoBehaviour
     [Header("UI Elements")]
     public TextMeshProUGUI coinRewardText;
     public TextMeshProUGUI gemRewardText;
+    public TextMeshProUGUI xpRewardText;
+
 
     [Header("Reward Settings")]
     public int coinReward;
     public int gemReward;
+    public int xpReward;
+
     public float coinMultiplier = 2.0f; // Default multiplier for coins
     public float gemMultiplier = 0.2f; // Default multiplier for gems (entry fee / 1000)
+    public float xpMultiplier = 0.1f; // Default multiplier for gems (entry fee / 1000)
+
 
     [Header("Entry Fee")]
     public EntryFee entryFee;
@@ -32,6 +38,8 @@ public class RewardsController : MonoBehaviour
         {
             coinReward = Mathf.RoundToInt(entryFee.currentFee * coinMultiplier);
             gemReward = Mathf.RoundToInt(entryFee.currentFee * gemMultiplier);
+            xpReward = Mathf.RoundToInt(entryFee.currentFee * xpMultiplier);
+
         }
         else
         {
@@ -47,5 +55,7 @@ public class RewardsController : MonoBehaviour
     {
         coinRewardText.text = coinReward.ToString();
         gemRewardText.text = gemReward.ToString();
+        xpRewardText.text = xpReward.ToString();
+
     }
 }

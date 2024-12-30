@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
     public void GameLose()
     {
         ChangeGameState(GameState.GameLose);
+
         ObstacleSpawner.Instance.LoseObstaceleSetting();
         CloudMovement.Instance.DestroyClouds();
         StartCoroutine(SoundManager.Instance.SlowAndStopMusic());
@@ -142,6 +143,7 @@ public class GameManager : MonoBehaviour
         ChangeGameState(GameState.GameWon);
         ObstacleSpawner.Instance.LoseObstaceleSetting();
         CloudMovement.Instance.DestroyClouds();
+        SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.Win);
 
         //StartCoroutine(SoundManager.Instance.SlowAndStopMusic());
 

@@ -7,6 +7,8 @@ public class PlayerDataManager : MonoBehaviour
     public string playerName;
     public int playerCoins;
     public int playerGems;
+    public int playerLevel;
+
 
     public int completedLevel;
 
@@ -61,6 +63,8 @@ public class PlayerDataManager : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.SetInt("PlayerCoins", playerCoins);
         PlayerPrefs.SetInt("PlayerGems", playerGems);
+        PlayerPrefs.SetInt("PlayerLevel", playerLevel);
+
         PlayerPrefs.SetInt("CompletedLevel", completedLevel);
         PlayerPrefs.Save();
     }
@@ -70,6 +74,8 @@ public class PlayerDataManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("PlayerName", "Guest");
         playerCoins = PlayerPrefs.GetInt("PlayerCoins", 0);
         playerGems = PlayerPrefs.GetInt("PlayerGems", 0);
+        playerGems = PlayerPrefs.GetInt("PlayerLevel", 0);
+
         completedLevel = PlayerPrefs.GetInt("CompletedLevel", 0);
     }
 

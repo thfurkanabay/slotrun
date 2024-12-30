@@ -58,11 +58,10 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Collectible"))
         {
             Debug.Log("Collided with other Collectibles");
-
-
             // Coin toplama animasyonunu başlat
             CoinCollection.Instance.CollectCoinsInSequence(other.transform.position, 3);
             SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.CollectiblePickup);
+
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("GoalObject"))

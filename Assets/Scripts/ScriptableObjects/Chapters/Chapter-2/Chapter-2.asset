@@ -30,12 +30,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 02a6c41554e79488693150bc8f7c92a7, type: 3}
   - {fileID: 21300000, guid: 414ba376f6b1240df9d0c217f2ed2907, type: 3}
   - {fileID: 21300000, guid: 9977405e54f504646990a764c1eec5c7, type: 3}
-  chapterMX: {fileID: 8300000, guid: e93bf249c06384f9e8f447f5c17fd7f8, type: 3}
+  chapterMX: {fileID: 8300000, guid: 642ea2140f6464ee0953ff1dc39b2fe9, type: 3}
   levels:
   - {fileID: 11400000, guid: 64d6984bac5f446dca7e31864dc1cf78, type: 2}
   - {fileID: 11400000, guid: db7d52d647ef6412b830827f5c55a8cd, type: 2}
   chapterIcon: {fileID: 21300000, guid: 1d39d22866205427fa83227d358eab8b, type: 3}
-  coinsReward: 10000
-  gemsReward: 100
-  specialRewardIcon: {fileID: 0}
-  specialRewardDescription: 
