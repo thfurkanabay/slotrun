@@ -141,6 +141,10 @@ public class GameManager : MonoBehaviour
     public void GameWon()
     {
         ChangeGameState(GameState.GameWon);
+
+        // Send current rewards for won popup
+        PopupWon.Instance.SetWonPopup();
+
         ObstacleSpawner.Instance.LoseObstaceleSetting();
         CloudMovement.Instance.DestroyClouds();
         SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.Win);
@@ -182,8 +186,8 @@ public class GameManager : MonoBehaviour
         //Start ground movemnet
         groundMovement.StartMovement();
         // Start cloud movement
-
         //CloudMovement.Instance.StartCloudMovement();
+
     }
 
     public void OnScreenTap()

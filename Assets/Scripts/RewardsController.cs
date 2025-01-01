@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class RewardsController : MonoBehaviour
 {
-    [Header("UI Elements")]
+    [Header("Menu Level Card Rewards")]
     public TextMeshProUGUI coinRewardText;
     public TextMeshProUGUI gemRewardText;
     public TextMeshProUGUI xpRewardText;
+
+
 
 
     [Header("Reward Settings")]
@@ -20,13 +22,24 @@ public class RewardsController : MonoBehaviour
     public float gemMultiplier = 0.2f; // Default multiplier for gems (entry fee / 1000)
     public float xpMultiplier = 0.1f; // Default multiplier for gems (entry fee / 1000)
 
+    public static RewardsController Instance;
+
 
     [Header("Entry Fee")]
     public EntryFee entryFee;
 
-    void Start()
+    void Awake()
     {
-        //UpdateRewardTexts();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     /// <summary>
@@ -50,12 +63,11 @@ public class RewardsController : MonoBehaviour
     /// <summary>
     /// Displays calculated rewards on the UI.
     /// </summary>
-
     public void UpdateRewardTexts()
     {
         coinRewardText.text = coinReward.ToString();
         gemRewardText.text = gemReward.ToString();
         xpRewardText.text = xpReward.ToString();
-
     }
+
 }
