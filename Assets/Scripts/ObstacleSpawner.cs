@@ -310,6 +310,10 @@ public class ObstacleSpawner : MonoBehaviour
         {
             Destroy(tileAnimGameObject);
         }
+        // Sound off any SFX
+
+        SoundManager.Instance.StopSFX();
+
         // Destroy ObdtacelSet if any
         if (obstaclesSetGameObjectList != null)
         {
