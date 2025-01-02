@@ -64,7 +64,9 @@ public class CoinCollection : MonoBehaviour
     private IEnumerator MoveCoinToTarget(GameObject coin, RectTransform coinRect)
     {
         Vector2 startPosition = coinRect.anchoredPosition;
-        Vector2 endPosition = targetPoint.position;
+        Vector2 endPosition = new Vector2(-761, 469);
+        Debug.Log("endPosition" + endPosition);
+
         float elapsedTime = 0f;
 
         // 6. Animasyon sırasında coin'in hareketi

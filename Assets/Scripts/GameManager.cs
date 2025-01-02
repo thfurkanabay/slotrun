@@ -179,6 +179,7 @@ public class GameManager : MonoBehaviour
         ChapterManager.Instance.LoadChapterByIndex(ChapterManager.Instance.currentChapterIndex);
 
         int entryFeeAmount = int.Parse(entryFee.entryFeeText.text); // entryFeeText'in doğru bir string olduğundan emin olun.
+        Debug.Log("entryFeeAmount: " + entryFeeAmount);
         UserManager.Instance.DecreaseCoins(entryFeeAmount);        // Player isPlayerDead false
 
         PlayerController.Instance.isPlayerDead = false;

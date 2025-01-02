@@ -50,7 +50,6 @@ public class EntryFee : MonoBehaviour
             chapterRewardSystem.LoadRewards();
             chapterRewardSystem.UpdateRewardTexts();
 
-
         }
 
     }
@@ -64,7 +63,6 @@ public class EntryFee : MonoBehaviour
             UpdateFeeText();
             chapterRewardSystem.LoadRewards();
             chapterRewardSystem.UpdateRewardTexts();
-
 
         }
 

@@ -24,7 +24,6 @@ public class RewardsController : MonoBehaviour
 
     public static RewardsController Instance;
 
-
     [Header("Entry Fee")]
     public EntryFee entryFee;
 
@@ -41,7 +40,6 @@ public class RewardsController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-
     /// <summary>
     /// Calculates rewards based on the entry fee and multipliers.
     /// </summary>
@@ -59,15 +57,14 @@ public class RewardsController : MonoBehaviour
             Debug.LogError("EntryFee is not assigned!");
         }
     }
-
     /// <summary>
     /// Displays calculated rewards on the UI.
     /// </summary>
     public void UpdateRewardTexts()
     {
-        coinRewardText.text = coinReward.ToString();
-        gemRewardText.text = gemReward.ToString();
-        xpRewardText.text = xpReward.ToString();
+        coinRewardText.text = coinReward.ToString() + " COIN";
+        gemRewardText.text = gemReward.ToString() + " GEM";
+        xpRewardText.text = xpReward.ToString() + " XP";
     }
 
 }

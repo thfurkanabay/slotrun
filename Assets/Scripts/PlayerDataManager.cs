@@ -7,9 +7,12 @@ public class PlayerDataManager : MonoBehaviour
     public string playerName;
     public int playerCoins;
     public int playerGems;
-    public int playerLevel;
 
-
+    public int userLevel; // Kullanıcı seviyesi
+    public float currentXP; // Şu anki XP
+    public float requiredXP; // Şu anki XP
+    public float baseXP = 10; // Şu anki XP
+    public float xpMultiplier = 1.5f; // XP artış çarpanı
     public int completedLevel;
 
     public UserManager userManager;
@@ -63,7 +66,11 @@ public class PlayerDataManager : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.SetInt("PlayerCoins", playerCoins);
         PlayerPrefs.SetInt("PlayerGems", playerGems);
-        PlayerPrefs.SetInt("PlayerLevel", playerLevel);
+        PlayerPrefs.SetInt("UserLevel", userLevel);
+        PlayerPrefs.SetFloat("CurrentXP", currentXP);
+        PlayerPrefs.SetFloat("RequiredXP", requiredXP);
+        PlayerPrefs.SetFloat("BaseXP", baseXP);
+        PlayerPrefs.SetFloat("XpMultiplier", xpMultiplier);
 
         PlayerPrefs.SetInt("CompletedLevel", completedLevel);
         PlayerPrefs.Save();
@@ -74,7 +81,11 @@ public class PlayerDataManager : MonoBehaviour
         playerName = PlayerPrefs.GetString("PlayerName", "Guest");
         playerCoins = PlayerPrefs.GetInt("PlayerCoins", 0);
         playerGems = PlayerPrefs.GetInt("PlayerGems", 0);
-        playerGems = PlayerPrefs.GetInt("PlayerLevel", 0);
+        userLevel = PlayerPrefs.GetInt("UserLevel", 1);
+        currentXP = PlayerPrefs.GetFloat("CurrentXP", 0f);
+        requiredXP = PlayerPrefs.GetFloat("RequiredXP", 0f);
+        baseXP = PlayerPrefs.GetFloat("BaseXP", 0f);
+        xpMultiplier = PlayerPrefs.GetFloat("XpMultiplier", 0f);
 
         completedLevel = PlayerPrefs.GetInt("CompletedLevel", 0);
     }
@@ -83,6 +94,9 @@ public class PlayerDataManager : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         playerName = null; // İsmi sıfırla
+        userLevel = 1; // Seviyeyi sıfırla
+        currentXP = 0f; // XP'yi sıfırla
         GenerateRandomPlayerName(); // Yeni rastgele isim oluştur
     }
+
 }

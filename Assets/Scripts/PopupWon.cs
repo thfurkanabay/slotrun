@@ -46,4 +46,12 @@ public class PopupWon : Popup
         gemCurrentGameRewardText.text = RewardsController.Instance.gemRewardText.text;
         xpCurrentGameRewardText.text = RewardsController.Instance.xpRewardText.text;
     }
+    public void OnClickClaimButton()
+    {
+        // 
+    }
+    public void OnClickClaimWithAddButton()
+    {
+        // Will ad watch ads and get reward
+    }
 }
