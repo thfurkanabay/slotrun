@@ -69,9 +69,10 @@ public class UserManager : MonoBehaviour
 
 
         playerNameText.text = playerDataManager.playerName;
-
-        userLevelSlider.maxValue = requiredXP;
-        userLevelSlider.value = currentXP;
+        userLevelSlider.maxValue = playerDataManager.requiredXP;
+        userLevelSlider.value = playerDataManager.currentXP;
+        Debug.Log("maxValue:" + userLevelSlider.maxValue);
+        Debug.Log("value:" + userLevelSlider.value);
 
         Debug.Log("playerNameText:" + playerNameText);
 
@@ -119,9 +120,12 @@ public class UserManager : MonoBehaviour
     }
     public void LevelUp()
     {
-        playerDataManager.userLevel++; // XP artır
-        playerDataManager.SavePlayerData();   // Kaydet
-        UpdateUI();                           // UI'yı güncelle
+        playerDataManager.userLevel++; // Seviyeyi artır
+        playerDataManager.currentXP = 0; // Mevcut XP'yi sıfırla
+        playerDataManager.requiredXP = CalculateRequiredXP(playerDataManager.userLevel); // Yeni seviyeye göre gerekli XP'yi hesapla
+
+        playerDataManager.SavePlayerData(); // Kaydet
+        UpdateUI(); // UI'yı güncelle
     }
     private float CalculateRequiredXP(int level)
     {

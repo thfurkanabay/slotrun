@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Collided with Obstacle");
             Destroy(gameObject);
-            HandleDeath(); // Ölüm sonrası işlemleri çağır
+            HandleDeath();
         }
         else if (other.CompareTag("Collectible"))
         {
@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
             // Coin toplama animasyonunu başlat
             CoinCollection.Instance.CollectCoinsInSequence(other.transform.position, 3);
             SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.CollectiblePickup);
+
 
             Destroy(other.gameObject);
         }

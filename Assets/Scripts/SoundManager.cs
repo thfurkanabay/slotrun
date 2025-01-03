@@ -29,7 +29,8 @@ public class SoundManager : MonoBehaviour
         Spin,
         ObjectAppear,
         ObstacleAnim,
-        Win
+        Win,
+        RewardCollect
     }
 
     private void Awake()

@@ -11,8 +11,6 @@ public class RewardsController : MonoBehaviour
     public TextMeshProUGUI xpRewardText;
 
 
-
-
     [Header("Reward Settings")]
     public int coinReward;
     public int gemReward;
@@ -62,9 +60,9 @@ public class RewardsController : MonoBehaviour
     /// </summary>
     public void UpdateRewardTexts()
     {
-        coinRewardText.text = coinReward.ToString() + " COIN";
-        gemRewardText.text = gemReward.ToString() + " GEM";
-        xpRewardText.text = xpReward.ToString() + " XP";
+        coinRewardText.text = "+ " + coinReward.ToString() + " COIN";
+        gemRewardText.text = "+ " + gemReward.ToString() + " GEM";
+        xpRewardText.text = "+ " + xpReward.ToString() + " XP";
     }
 
 }

@@ -48,9 +48,17 @@ public class PopupWon : Popup
     }
     public void OnClickClaimButton()
     {
-        // 
+        ClaimRewards.Instance.ClaimReward();
+        //Debug.Log("coinReward" + RewardsController.Instance.coinReward);
+        //Debug.Log("gemReward" + RewardsController.Instance.gemReward);
+        //Debug.Log("xpReward" + RewardsController.Instance.xpReward);
+
+        UserManager.Instance.IncreaseCoins(RewardsController.Instance.coinReward);
+        UserManager.Instance.IncreaseGems(RewardsController.Instance.gemReward);
+        UserManager.Instance.IncreaseXP(RewardsController.Instance.xpReward);
+
     }
-    public void OnClickClaimWithAddButton()
+    public void OnClickClaimWithAdsButton()
     {
         // Will ad watch ads and get reward
     }
