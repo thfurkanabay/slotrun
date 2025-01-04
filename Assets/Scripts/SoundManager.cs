@@ -30,7 +30,10 @@ public class SoundManager : MonoBehaviour
         ObjectAppear,
         ObstacleAnim,
         Win,
-        RewardCollect
+        RewardCoinCollect,
+        RewardGemCollect,
+        RewardXPCollect
+
     }
 
     private void Awake()

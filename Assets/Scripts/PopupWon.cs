@@ -53,9 +53,7 @@ public class PopupWon : Popup
         //Debug.Log("gemReward" + RewardsController.Instance.gemReward);
         //Debug.Log("xpReward" + RewardsController.Instance.xpReward);
 
-        UserManager.Instance.IncreaseCoins(RewardsController.Instance.coinReward);
-        UserManager.Instance.IncreaseGems(RewardsController.Instance.gemReward);
-        UserManager.Instance.IncreaseXP(RewardsController.Instance.xpReward);
+
 
     }
     public void OnClickClaimWithAdsButton()

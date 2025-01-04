@@ -50,23 +50,36 @@ public class ClaimRewards : MonoBehaviour
         StartCoroutine(SpawnRewardsSequentially());
     }
 
+
     private IEnumerator SpawnRewardsSequentially()
     {
         // Coin grubunu spawnla ve bitmesini bekle
-        yield return StartCoroutine(SpawnRewards(coinPrefab, coinStartPos.position, coinEndPos.position));
+        yield return StartCoroutine(SpawnRewards(coinPrefab, coinStartPos.position, coinEndPos.position, RewardType.Coin));
         yield return new WaitForSeconds(groupDelay);
 
         // Gem grubunu spawnla ve bitmesini bekle
-        yield return StartCoroutine(SpawnRewards(gemPrefab, gemStartPos.position, gemEndPos.position));
+        yield return StartCoroutine(SpawnRewards(gemPrefab, gemStartPos.position, gemEndPos.position, RewardType.Gem));
         yield return new WaitForSeconds(groupDelay);
 
         // XP grubunu spawnla ve bitmesini bekle
-        yield return StartCoroutine(SpawnRewards(xpPrefab, xpStartPos.position, xpEndPos.position));
+        yield return StartCoroutine(SpawnRewards(xpPrefab, xpStartPos.position, xpEndPos.position, RewardType.XP));
     }
 
-    private IEnumerator SpawnRewards(GameObject prefab, Vector3 startPos, Vector3 endPos)
+    private IEnumerator SpawnRewards(GameObject prefab, Vector3 startPos, Vector3 endPos, RewardType rewardType)
     {
-        SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.RewardCollect);
+        // Her ödül türü için uygun ses efektini çal
+        switch (rewardType)
+        {
+            case RewardType.Coin:
+                SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.RewardCoinCollect);
+                break;
+            case RewardType.Gem:
+                SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.RewardGemCollect);
+                break;
+            case RewardType.XP:
+                SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.RewardXPCollect);
+                break;
+        }
 
         for (int i = 0; i < rewardCount; i++)
         {
@@ -79,11 +92,11 @@ public class ClaimRewards : MonoBehaviour
             rewardTransform.position = startPos;
 
             // Animasyonu başlat
-            StartCoroutine(MoveAndShrink(reward, rewardTransform, endPos));
+            StartCoroutine(MoveAndShrink(reward, rewardTransform, endPos, rewardType));
         }
     }
 
-    private IEnumerator MoveAndShrink(GameObject reward, RectTransform rewardTransform, Vector3 endPos)
+    private IEnumerator MoveAndShrink(GameObject reward, RectTransform rewardTransform, Vector3 endPos, RewardType rewardType)
     {
         Vector2 startPosition = rewardTransform.position;
         Vector3 startScale = Vector3.one;
@@ -103,7 +116,29 @@ public class ClaimRewards : MonoBehaviour
             yield return null;
         }
 
+        // Hedefe ulaştığında ödülü artır
+        switch (rewardType)
+        {
+            case RewardType.Coin:
+                UserManager.Instance.IncreaseCoins(1); // Burada miktar sabit ya da değişken olabilir
+                break;
+            case RewardType.Gem:
+                UserManager.Instance.IncreaseGems(1);
+                break;
+            case RewardType.XP:
+                UserManager.Instance.IncreaseXP(1);
+                break;
+        }
+
         // Hedefe ulaştığında ödülü yok et
         Destroy(reward);
+    }
+
+    // Ödül türlerini tanımlamak için enum
+    private enum RewardType
+    {
+        Coin,
+        Gem,
+        XP
     }
 }
