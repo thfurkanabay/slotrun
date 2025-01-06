@@ -63,6 +63,10 @@ public class ClaimRewards : MonoBehaviour
 
         // XP grubunu spawnla ve bitmesini bekle
         yield return StartCoroutine(SpawnRewards(xpPrefab, xpStartPos.position, xpEndPos.position, RewardType.XP));
+
+        // Tüm ödüller spawnlandığında popupı kapat
+        UIManager.Instance.CloseAllPopups();
+        UIManager.Instance.OpenPopup("Popup_After_Won");
     }
 
     private IEnumerator SpawnRewards(GameObject prefab, Vector3 startPos, Vector3 endPos, RewardType rewardType)

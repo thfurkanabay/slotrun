@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PopupLose : Popup
 {
     public Image characterLosePose;
+    public int chapterNo;
 
     public static PopupLose Instance;
 
@@ -44,4 +45,13 @@ public class PopupLose : Popup
             Debug.LogError("MenuChapterCard reference not assigned!");
         }
     }
+    public void PlayAgainButton()
+    {
+        Debug.Log("Play Again Button Clicked");
+
+        UIManager.Instance.OpenPopup("Popup_Level");
+
+    }
+
+
 }

@@ -23,6 +23,7 @@ public class SoundManager : MonoBehaviour
     public enum SoundEffect
     {
         ButtonClick,
+        InfoButtonClick,
         CollectiblePickup,
         MenuOpen,
         GameOver,
@@ -32,7 +33,7 @@ public class SoundManager : MonoBehaviour
         Win,
         RewardCoinCollect,
         RewardGemCollect,
-        RewardXPCollect
+        RewardXPCollect,
 
     }
 

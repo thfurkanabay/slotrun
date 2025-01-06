@@ -118,6 +118,21 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+    public void LevelPopupCloseButton()
+    {
+        Debug.Log("LevelPopupCloseButton Clicked");
+
+        if (GameManager.Instance.currentGameState == GameManager.GameState.GameLose)
+        {
+            Debug.Log("Game State: " + GameManager.Instance.currentGameState);
+            CloseTopPopup();
+            OpenPopup("Popup_Lose");
+        }
+        else
+        {
+            CloseTopPopup();
+        }
+    }
     /*public void CoinCollectionButton()
     {
         CoinCollection.Instance.CollectCoinsInSequence(coinCollectionButton.transform.position, 2);

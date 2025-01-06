@@ -48,7 +48,7 @@ public class MenuChapterCard : MonoBehaviour
         }
         else
         {
-            Debug.LogError("PopupLevel bulunamadı!");
+            Debug.LogError("There is no PopupLevel!");
         }
     }
 }
