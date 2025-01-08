@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerDataManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PlayerDataManager : MonoBehaviour
     public string playerName;
     public int playerCoins;
     public int playerGems;
+    public Image userIcon; // Kullanıcı seviyesi
 
     public int userLevel; // Kullanıcı seviyesi
     public float currentXP; // Şu anki XP
@@ -72,12 +74,28 @@ public class PlayerDataManager : MonoBehaviour
         PlayerPrefs.SetFloat("BaseXP", baseXP);
         PlayerPrefs.SetFloat("XpMultiplier", xpMultiplier);
 
+
+        // Kullanıcı ikonunu kaydet
+        int userIconIndex = userManager.userIcons.IndexOf(userIcon.sprite);
+        PlayerPrefs.SetInt("UserIcon", userIconIndex);
+
         PlayerPrefs.SetInt("CompletedLevel", completedLevel);
         PlayerPrefs.Save();
     }
 
     public void LoadPlayerData()
     {
+        // Kullanıcı ikonunu yükle
+        int userIconIndex = PlayerPrefs.GetInt("UserIcon", 0);
+        if (userIconIndex >= 0 && userIconIndex < userManager.userIcons.Count)
+        {
+            userIcon.sprite = userManager.userIcons[userIconIndex];
+        }
+        else
+        {
+            userIcon.sprite = userManager.userIcons[0]; // Varsayılan ikon
+        }
+
         playerName = PlayerPrefs.GetString("PlayerName", "Guest");
         playerCoins = PlayerPrefs.GetInt("PlayerCoins", 0);
         playerGems = PlayerPrefs.GetInt("PlayerGems", 0);

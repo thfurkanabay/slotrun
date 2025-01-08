@@ -17,10 +17,13 @@ public class ClaimRewards : MonoBehaviour
     [Header("UI Positions")]
     public Transform coinStartPos; // Coin başlangıç pozisyonu
     public Transform gemStartPos;  // Gem başlangıç pozisyonu
-    public Transform xpStartPos;   // XP başlangıç pozisyonu
+    public Transform xpStartPos;   // XP başlangıç pozisyon
+    public Transform bonusRewardsStartPos; // Coin başlangıç pozisyonu
     public Transform coinEndPos;   // Coin hedef pozisyonu
     public Transform gemEndPos;    // Gem hedef pozisyonu
     public Transform xpEndPos;     // XP hedef pozisyonu
+    public Transform bonusRewardsEndPos; // Coin başlangıç pozisyonu
+
 
     [Header("Settings")]
     public float moveDuration = 1f; // Hareket süresi
@@ -28,6 +31,7 @@ public class ClaimRewards : MonoBehaviour
     public float groupDelay = 1f;   // Ödül grupları arasında bekleme süresi
     public int rewardCount = 5; // Her ödül için spawnlanacak miktar
     public Transform rewardContainer; // Ödüllerin spawn edileceği UI container
+    public Transform bonusRewardContainer; // Ödüllerin spawn edileceği UI container
 
     public static ClaimRewards Instance;
 
@@ -49,7 +53,16 @@ public class ClaimRewards : MonoBehaviour
     {
         StartCoroutine(SpawnRewardsSequentially());
     }
+    public void ClaimBonusReward()
+    {
+        StartCoroutine(SpawnBonusRewards());
+    }
+    private IEnumerator SpawnBonusRewards()
+    {
+        yield return StartCoroutine(SpawnRewards(coinPrefab, bonusRewardsStartPos.position, bonusRewardsEndPos.position, RewardType.Coin));
+        yield return new WaitForSeconds(groupDelay);
 
+    }
 
     private IEnumerator SpawnRewardsSequentially()
     {
@@ -90,8 +103,10 @@ public class ClaimRewards : MonoBehaviour
             // Her ödül arasında belirli bir süre bekle
             yield return new WaitForSeconds(spawnInterval);
 
-            // Yeni bir ödül oluştur
-            GameObject reward = Instantiate(prefab, rewardContainer);
+            // Yeni bir ödül oluştur ve uygun konteynıra ekle
+            Transform targetContainer = rewardType == RewardType.Coin && bonusRewardsStartPos != null ? bonusRewardContainer : rewardContainer;
+
+            GameObject reward = Instantiate(prefab, targetContainer);
             RectTransform rewardTransform = reward.GetComponent<RectTransform>();
             rewardTransform.position = startPos;
 
@@ -119,7 +134,7 @@ public class ClaimRewards : MonoBehaviour
 
             yield return null;
         }
-
+        Debug.Log("rewardType: " + rewardType);
         // Hedefe ulaştığında ödülü artır
         switch (rewardType)
         {

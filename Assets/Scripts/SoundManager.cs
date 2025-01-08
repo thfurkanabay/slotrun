@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance; // Singleton instance
-
+    [Header("Sliders")]
+    [SerializeField] private Slider musicSlider; // Reference to the music volume slider
+    [SerializeField] private Slider sfxSlider;   // Reference to the sound effects volume slider
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource; // For background music
     [SerializeField] private AudioSource sfxSource;   // For sound effects
@@ -34,6 +37,9 @@ public class SoundManager : MonoBehaviour
         RewardCoinCollect,
         RewardGemCollect,
         RewardXPCollect,
+        DecreaseBet,
+        IncreaseBet
+
 
     }
 
@@ -52,6 +58,8 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
+        InitializeSliders();
+
         UpdateVolumes();
         sfxDictionary = new Dictionary<SoundEffect, AudioClip>();
         foreach (SoundClip soundClip in soundClips)
@@ -60,7 +68,20 @@ public class SoundManager : MonoBehaviour
         }
 
     }
+    private void InitializeSliders()
+    {
+        if (musicSlider != null)
+        {
+            musicSlider.value = musicVolume;
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
 
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = sfxVolume;
+            sfxSlider.onValueChanged.AddListener(SetSFXVolume);
+        }
+    }
     public void PlayMusic(AudioClip musicClip, bool loop = true)
     {
         if (musicSource != null && musicClip != null)
