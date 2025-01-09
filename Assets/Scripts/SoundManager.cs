@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +20,10 @@ public class SoundManager : MonoBehaviour
     private Dictionary<SoundEffect, AudioClip> sfxDictionary;
 
     [Header("Settings")]
-    [Range(0f, 1f)] public float musicVolume = 1f;
-    [Range(0f, 1f)] public float sfxVolume = 1f;
+    [Range(0f, 1f)] public float musicVolume = 0.2f;
+    [Range(0f, 1f)] public float sfxVolume = 0.5f;
+    public bool musicMuted = false;
+    public bool sfxMuted = false;
 
 
     public enum SoundEffect
@@ -72,15 +75,20 @@ public class SoundManager : MonoBehaviour
     {
         if (musicSlider != null)
         {
-            musicSlider.value = musicVolume;
             musicSlider.onValueChanged.AddListener(SetMusicVolume);
+            musicSource.volume = musicVolume;
+            musicSlider.value = musicVolume;
+
         }
 
         if (sfxSlider != null)
         {
-            sfxSlider.value = sfxVolume;
             sfxSlider.onValueChanged.AddListener(SetSFXVolume);
+            sfxSource.volume = sfxVolume;
+            sfxSlider.value = sfxVolume;
         }
+        UpdateVolumes();
+
     }
     public void PlayMusic(AudioClip musicClip, bool loop = true)
     {
@@ -130,14 +138,32 @@ public class SoundManager : MonoBehaviour
 
     public void UpdateVolumes()
     {
+
         if (musicSource != null)
         {
+            Debug.Log("UpdatedmusicVolume" + musicVolume);
             musicSource.volume = musicVolume;
+            if (musicSource.volume == 0)
+            {
+                musicMuted = true;
+            }
+            else
+            {
+                musicMuted = false;
+            }
         }
 
         if (sfxSource != null)
         {
             sfxSource.volume = sfxVolume;
+            if (sfxSource.volume == 0)
+            {
+                sfxMuted = true;
+            }
+            else
+            {
+                sfxMuted = false;
+            }
         }
     }
 

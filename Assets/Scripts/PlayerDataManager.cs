@@ -9,7 +9,7 @@ public class PlayerDataManager : MonoBehaviour
     public int playerCoins;
     public int playerGems;
     public Image userIcon; // Kullanıcı seviyesi
-
+    public Image userBadges; // Kullanıcı seviyesi
     public int userLevel; // Kullanıcı seviyesi
     public float currentXP; // Şu anki XP
     public float requiredXP; // Şu anki XP
@@ -75,9 +75,11 @@ public class PlayerDataManager : MonoBehaviour
         PlayerPrefs.SetFloat("XpMultiplier", xpMultiplier);
 
 
-        // Kullanıcı ikonunu kaydet
         int userIconIndex = userManager.userIcons.IndexOf(userIcon.sprite);
         PlayerPrefs.SetInt("UserIcon", userIconIndex);
+
+        int userBadgesIndex = userManager.userBadges.IndexOf(userBadges.sprite);
+        PlayerPrefs.SetInt("UserBadges", userBadgesIndex);
 
         PlayerPrefs.SetInt("CompletedLevel", completedLevel);
         PlayerPrefs.Save();
@@ -85,6 +87,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public void LoadPlayerData()
     {
+
         // Kullanıcı ikonunu yükle
         int userIconIndex = PlayerPrefs.GetInt("UserIcon", 0);
         if (userIconIndex >= 0 && userIconIndex < userManager.userIcons.Count)
@@ -93,7 +96,19 @@ public class PlayerDataManager : MonoBehaviour
         }
         else
         {
-            userIcon.sprite = userManager.userIcons[0]; // Varsayılan ikon
+            userIcon.sprite = userManager.userIcons[0];
+        }
+
+        // Kullanıcı rozetini yükle
+
+        int userBadgesIndex = PlayerPrefs.GetInt("UserBadges", 0);
+        if (userBadgesIndex >= 0 && userBadgesIndex < userManager.userBadges.Count)
+        {
+            userBadges.sprite = userManager.userBadges[userBadgesIndex];
+        }
+        else
+        {
+            userBadges.sprite = userManager.userBadges[0];
         }
 
         playerName = PlayerPrefs.GetString("PlayerName", "Guest");
@@ -106,6 +121,9 @@ public class PlayerDataManager : MonoBehaviour
         xpMultiplier = PlayerPrefs.GetFloat("XpMultiplier", 0f);
 
         completedLevel = PlayerPrefs.GetInt("CompletedLevel", 0);
+
+        AssignUserBadge();
+
     }
 
     public void ResetPlayerData()
@@ -115,6 +133,49 @@ public class PlayerDataManager : MonoBehaviour
         userLevel = 1; // Seviyeyi sıfırla
         currentXP = 0f; // XP'yi sıfırla
         GenerateRandomPlayerName(); // Yeni rastgele isim oluştur
+    }
+    public void AssignUserBadge()
+    {
+        // Kontrol: `userManager` veya `userBadges` null ise hata önle
+        if (userManager == null || userManager.userBadges == null || userManager.userBadges.Count == 0)
+        {
+            Debug.LogWarning("UserManager veya rozet listesi atanmadı!");
+            return;
+        }
+        Debug.Log("UserLevel: " + userLevel);
+        // En yüksek seviyeden başlayarak kontrol et
+        if (userLevel > 100)
+        {
+            userBadges.sprite = userManager.userBadges[6]; // En yüksek rozet
+        }
+        else if (userLevel > 80)
+        {
+            userBadges.sprite = userManager.userBadges[5];
+        }
+        else if (userLevel > 60)
+        {
+            userBadges.sprite = userManager.userBadges[4];
+        }
+        else if (userLevel > 40)
+        {
+            userBadges.sprite = userManager.userBadges[3];
+        }
+        else if (userLevel > 30)
+        {
+            userBadges.sprite = userManager.userBadges[2];
+        }
+        else if (userLevel > 20)
+        {
+            userBadges.sprite = userManager.userBadges[1];
+        }
+        else if (userLevel > 10)
+        {
+            userBadges.sprite = userManager.userBadges[0];
+        }
+        else
+        {
+            userBadges.sprite = userManager.userBadges[0];
+        }
     }
 
 }

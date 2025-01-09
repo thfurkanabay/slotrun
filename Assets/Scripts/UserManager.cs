@@ -13,8 +13,11 @@ public class UserManager : MonoBehaviour
     public TextMeshProUGUI requiredXPText; // Kullanıcı seviyesi
     public TextMeshProUGUI playerNameText;
     public Image userIcon; // Kullanıcı ikonu   
+    public Image userBadge; // Kullanıcı ikonu   
 
     public List<Sprite> userIcons; // Kullanılabilir kullanıcı ikonları
+    public List<Sprite> userBadges; // Kullanılabilir kullanıcı ikonları
+
     public PlayerDataManager playerDataManager;
     public int userLevel = 1; // Kullanıcı başlangıç seviyesi
     public float currentXP = 0f; // Şu anki XP
@@ -77,6 +80,15 @@ public class UserManager : MonoBehaviour
         {
             Debug.LogWarning("User icon is not set in PlayerDataManager.");
         }
+        if (playerDataManager.userBadges != null)
+        {
+            userBadge.sprite = playerDataManager.userBadges.sprite;
+        }
+        else
+        {
+            Debug.LogWarning("User badge is not set in PlayerDataManager.");
+        }
+
         playerNameText.text = playerDataManager.playerName;
         userLevelSlider.maxValue = playerDataManager.requiredXP;
         userLevelSlider.value = playerDataManager.currentXP;

@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     {
         MainMenu,
         GameStart,
-
         GameWaiting,
         GamePlaying,
         GamePaused,
