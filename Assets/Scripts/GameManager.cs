@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject tapAnimGameObject;
     public EntryFee entryFee;
-
+    public GameObject screenTransition;
 
     public enum GameState
     {
@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
 
     public void StartPlaying()
     {
+
         PlayerController.Instance.SetPlayerGravityScale(1.0f);
         ObstacleSpawner.Instance.isGameOn = true;
         // Change the gamstate
@@ -169,16 +170,42 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
-        tapAnimGameObject.SetActive(true);
-        ObstacleSpawner.Instance.level.SetActive(true);
-        ChapterManager.Instance.PlayChapterMX();
-        // Change the gamstate
-        ChangeGameState(GameState.GameWaiting);
+        StartCoroutine(StartGameProcess());
+    }
+    public IEnumerator StartGameProcess()
+    {
+        int entryFeeAmount = int.Parse(entryFee.entryFeeText.text); // Entry fee miktarını al
+        int userCoins = PlayerDataManager.Instance.playerCoins; // Kullanıcının mevcut parasını al
+        Debug.Log("entryFeeAmount: " + entryFeeAmount);
+
+        if (userCoins < entryFeeAmount)
+        {
+            // Kullanıcının parası yetersizse bir popup göster
+            UIManager.Instance.OpenPopup("Popup_AddCoin");
+            SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.NotEnoughCoins);
+            Debug.Log("Not enough coins to start the game!");
+            yield break; // Oyunu başlatma
+        }
+        screenTransition.SetActive(true);
+
         UIManager.Instance.OpenScreen("Game");
+        ChangeGameState(GameState.GameWaiting);
         ChapterManager.Instance.LoadChapterByIndex(ChapterManager.Instance.currentChapterIndex);
 
-        int entryFeeAmount = int.Parse(entryFee.entryFeeText.text); // entryFeeText'in doğru bir string olduğundan emin olun.
-        Debug.Log("entryFeeAmount: " + entryFeeAmount);
+        Animator screenAnimator = screenTransition.GetComponent<Animator>();
+        screenTransition.SetActive(true);
+
+        while (screenAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f ||
+              screenAnimator.IsInTransition(0))
+        {
+            yield return null; // Bir frame bekle
+        }
+        //SoundManager.Instance.PlayMusic();   
+
+        tapAnimGameObject.SetActive(true);
+        ObstacleSpawner.Instance.level.SetActive(true);
+        // Change the gamstate
+
         UserManager.Instance.DecreaseCoins(entryFeeAmount);        // Player isPlayerDead false
 
         PlayerController.Instance.isPlayerDead = false;
@@ -187,6 +214,9 @@ public class GameManager : MonoBehaviour
         groundMovement.StartMovement();
         // Start cloud movement
         //CloudMovement.Instance.StartCloudMovement();
+
+        screenTransition.SetActive(false);
+        ChapterManager.Instance.PlayChapterMX();
 
     }
 

@@ -28,20 +28,8 @@ public class SoundManager : MonoBehaviour
 
     public enum SoundEffect
     {
-        ButtonClick,
-        InfoButtonClick,
-        CollectiblePickup,
-        MenuOpen,
-        GameOver,
-        Spin,
-        ObjectAppear,
-        ObstacleAnim,
-        Win,
-        RewardCoinCollect,
-        RewardGemCollect,
-        RewardXPCollect,
-        DecreaseBet,
-        IncreaseBet
+        ButtonClick, InfoButtonClick, CollectiblePickup, MenuOpen, GameOver, Spin, ObjectAppear, ObstacleAnim, Win, RewardCoinCollect,
+        RewardGemCollect, RewardXPCollect, DecreaseBet, IncreaseBet, NotEnoughCoins
 
 
     }

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9820183935a411bacfb22bb948b9ec, type: 3}
+  m_Name: Chapter-3
+  m_EditorClassIdentifier: 
+  chapterName: Galactic Rush
+  chapterDescription: Space Concept Level
+  chapterBackGroundSprite: {fileID: 21300000, guid: 3a1da62d51b5e4fd499f3fa67ca12018, type: 3}
+  chapterGroundSprite: {fileID: 21300000, guid: ba9977327c4234eeb867235343f010f2, type: 3}
+  chapterCharacter: {fileID: 6326789263313391527, guid: 5610a8f23ee6249bd89cf8095dfedcdf, type: 3}
+  chapterCharacterLosePose: {fileID: 21300000, guid: 3e5f00a10a08f40b0a5cb3e7913ef44b, type: 3}
+  chapterItemsMaterialSprite: {fileID: 21300000, guid: 3f54ba3212e16447daf905426813c1d8, type: 3}
+  goalObjectImagelist:
+  - {fileID: 21300000, guid: cb82c04e760054fbe946b5467c667d2e, type: 3}
+  - {fileID: 21300000, guid: f569085eff9a0460d855e1414720259e, type: 3}
+  - {fileID: 21300000, guid: afea180d3721e4717b622ba36f015aef, type: 3}
+  - {fileID: 21300000, guid: 0f8bd06ee55054fb4998d99089295423, type: 3}
+  - {fileID: 21300000, guid: 2cea941acb57f434fa89c0906434d3d7, type: 3}
+  - {fileID: 21300000, guid: 6aeaea6d5dd634d6394bd21968dae898, type: 3}
+  - {fileID: 21300000, guid: 34f6ded2a45964ee0abd278519ee4157, type: 3}
+  - {fileID: 21300000, guid: 02a6c41554e79488693150bc8f7c92a7, type: 3}
+  - {fileID: 21300000, guid: 414ba376f6b1240df9d0c217f2ed2907, type: 3}
+  - {fileID: 21300000, guid: 9977405e54f504646990a764c1eec5c7, type: 3}
+  chapterMX: {fileID: 8300000, guid: 0006f5a672fe8488cac126e35db77bec, type: 3}
+  levels:
+  - {fileID: 11400000, guid: 64d6984bac5f446dca7e31864dc1cf78, type: 2}
+  - {fileID: 11400000, guid: db7d52d647ef6412b830827f5c55a8cd, type: 2}
+  chapterIcon: {fileID: 21300000, guid: 1aff2d870e5344ff9b48fad455595dc0, type: 3}
