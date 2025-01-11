@@ -6,17 +6,29 @@ using UnityEngine.UI;
 
 public class UserManager : MonoBehaviour
 {
-    public TextMeshProUGUI coinsText;
-    public TextMeshProUGUI gemsText;
-    public TextMeshProUGUI userLevelText; // Kullanıcı seviyesi
-    public TextMeshProUGUI currentXPText; // Kullanıcı seviyesi
-    public TextMeshProUGUI requiredXPText; // Kullanıcı seviyesi
-    public TextMeshProUGUI playerNameText;
-    public Image userIcon; // Kullanıcı ikonu   
-    public Image userBadge; // Kullanıcı ikonu   
+    [Tooltip("Coin text objects to update")]
 
-    public List<Sprite> userIcons; // Kullanılabilir kullanıcı ikonları
-    public List<Sprite> userBadges; // Kullanılabilir kullanıcı ikonları
+    [Header("Coin Element")]
+    public List<TextMeshProUGUI> coinsTexts;
+
+    [Header("Gem Elements")]
+    public TextMeshProUGUI gemsText;
+
+    [Header("User Level Element")]
+    public List<TextMeshProUGUI> userLevelTexts;
+
+    [Header("XP Elements")]
+    public List<TextMeshProUGUI> currentXPTexts; // Kullanıcı seviyesi
+    public List<TextMeshProUGUI> requiredXPTexts; // Kullanıcı seviyesi
+
+    [Header("User Name Element")]
+    public TextMeshProUGUI playerNameText;
+
+    public List<Image> userIconList; // Kullanıcı ikonu   
+    public List<Image> userBadgeList; // Kullanıcı ikonu   
+
+    public List<Sprite> userIconImageList; // Kullanılabilir kullanıcı ikonları
+    public List<Sprite> userBadgeImageList; // Kullanılabilir kullanıcı ikonları
 
     public PlayerDataManager playerDataManager;
     public int userLevel = 1; // Kullanıcı başlangıç seviyesi
@@ -66,42 +78,80 @@ public class UserManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        coinsText.text = playerDataManager.playerCoins.ToString();
-        gemsText.text = playerDataManager.playerGems.ToString();
-        userLevelText.text = playerDataManager.userLevel.ToString();
-        currentXPText.text = playerDataManager.currentXP.ToString();
-        requiredXPText.text = playerDataManager.requiredXP.ToString();
+        UpdateCoinText(); // Update coin text
+        UpdateUserLevelText(); // Update user level text
+        UpdateXPTexts(); // Update XP text
+        AssignUserBadge(); // Assign user badge
+        UpdateUserBadges(); // Update user badges
+        UpdateUserIcon(); // Update user icon
 
-        if (playerDataManager.userIcon != null)
-        {
-            userIcon.sprite = playerDataManager.userIcon.sprite;
-        }
-        else
-        {
-            Debug.LogWarning("User icon is not set in PlayerDataManager.");
-        }
-        if (playerDataManager.userBadges != null)
-        {
-            userBadge.sprite = playerDataManager.userBadges.sprite;
-        }
-        else
-        {
-            Debug.LogWarning("User badge is not set in PlayerDataManager.");
-        }
+
+        gemsText.text = playerDataManager.playerGems.ToString();
+
 
         playerNameText.text = playerDataManager.playerName;
         userLevelSlider.maxValue = playerDataManager.requiredXP;
         userLevelSlider.value = playerDataManager.currentXP;
-        Debug.Log("maxValue:" + userLevelSlider.maxValue);
-        Debug.Log("value:" + userLevelSlider.value);
-
-        Debug.Log("playerNameText:" + playerNameText);
 
         PlayerDataManager.Instance.SavePlayerData();
-        // Dropdown'u güncelle
-        //completedLevelDropdown.value = playerDataManager.completedLevel;
+
     }
 
+    private void UpdateCoinText()
+    {
+        for (int i = 0; i < coinsTexts.Count; i++)
+        {
+            coinsTexts[i].text = playerDataManager.playerCoins.ToString();
+        }
+    }
+    private void UpdateUserLevelText()
+    {
+        for (int i = 0; i < userLevelTexts.Count; i++)
+        {
+            userLevelTexts[i].text = playerDataManager.userLevel.ToString();
+        }
+
+        for (int i = 0; i < currentXPTexts.Count; i++)
+        {
+            currentXPTexts[i].text = playerDataManager.currentXP.ToString();
+        }
+        for (int i = 0; i < requiredXPTexts.Count; i++)
+        {
+            requiredXPTexts[i].text = playerDataManager.requiredXP.ToString();
+        }
+    }
+    private void UpdateXPTexts()
+    {
+        for (int i = 0; i < currentXPTexts.Count; i++)
+        {
+            currentXPTexts[i].text = playerDataManager.currentXP.ToString();
+        }
+        for (int i = 0; i < requiredXPTexts.Count; i++)
+        {
+            requiredXPTexts[i].text = playerDataManager.requiredXP.ToString();
+        }
+    }
+    private void UpdateUserBadges()
+    {
+        for (int i = 0; i < userBadgeList.Count; i++)
+        {
+            userBadgeList[i].sprite = userBadgeImageList[playerDataManager.userBadgeImageIndex];
+        }
+    }
+    private void UpdateUserIcon()
+    {
+        for (int i = 0; i < userIconList.Count; i++)
+        {
+            userIconList[i].sprite = userIconImageList[playerDataManager.userIconImageIndex];
+        }
+    }
+    private void UpdateUserIcon(int index)
+    {
+        for (int i = 0; i < userIconList.Count; i++)
+        {
+            userIconList[i].sprite = userIconImageList[index];
+        }
+    }
 
     public void IncreaseCoins(int amount)
     {
@@ -191,5 +241,55 @@ public class UserManager : MonoBehaviour
         playerDataManager.ResetPlayerData();
         UpdateUI();
     }*/
+    public void AssignUserBadge()
+    {
+        // Kontrol: `userBadgeImageList` boşsa hata önle
+        if (userBadgeImageList == null || userBadgeImageList.Count == 0)
+        {
+            Debug.LogWarning("Rozet listesi atanmadı!");
+            return;
+        }
+        Debug.Log("UserLevel: " + playerDataManager.userLevel);
+
+        // En yüksek seviyeden başlayarak kontrol et
+        if (playerDataManager.userLevel > 100)
+        {
+            playerDataManager.userBadgeImageIndex = 6;
+        }
+        else if (playerDataManager.userLevel > 80)
+        {
+            playerDataManager.userBadgeImageIndex = 5;
+        }
+        else if (playerDataManager.userLevel > 60)
+        {
+            playerDataManager.userBadgeImageIndex = 4;
+        }
+        else if (playerDataManager.userLevel > 40)
+        {
+            playerDataManager.userBadgeImageIndex = 3;
+        }
+        else if (playerDataManager.userLevel > 30)
+        {
+            playerDataManager.userBadgeImageIndex = 2;
+        }
+        else if (playerDataManager.userLevel > 20)
+        {
+            playerDataManager.userBadgeImageIndex = 1;
+        }
+        else if (playerDataManager.userLevel > 10)
+        {
+            playerDataManager.userBadgeImageIndex = 0;
+        }
+        else
+        {
+            playerDataManager.userBadgeImageIndex = 0;
+        }
+
+        // Rozeti güncelle UI'da
+        UpdateUserBadges();
+
+        // Verileri kaydet
+        playerDataManager.SavePlayerData();
+    }
 
 }

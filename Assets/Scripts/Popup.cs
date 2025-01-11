@@ -13,7 +13,6 @@ public class Popup : MonoBehaviour
     {
         if (!isAnimating && popupAnimation != null)
         {
-            Debug.Log("Popup Open");
             gameObject.SetActive(true); // Popup'ı aktif hale getir
             isAnimating = true;
             popupAnimation.Play(openPopupAnimation);

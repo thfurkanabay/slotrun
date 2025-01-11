@@ -129,7 +129,6 @@ public class SoundManager : MonoBehaviour
 
         if (musicSource != null)
         {
-            Debug.Log("UpdatedmusicVolume" + musicVolume);
             musicSource.volume = musicVolume;
             if (musicSource.volume == 0)
             {

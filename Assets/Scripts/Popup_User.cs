@@ -36,19 +36,19 @@ public class Popup_User : Popup
             return;
         }
 
-        if (PlayerDataManager.Instance.userIcon == null)
+        if (UserManager.Instance.userIconImageList[PlayerDataManager.Instance.userIconImageIndex] == null)
         {
             Debug.LogError("userIcon is null in PlayerDataManager. Assign it properly.");
             return;
         }
 
-        if (PlayerDataManager.Instance.userIcon.sprite == null)
+        if (UserManager.Instance.userIconImageList[PlayerDataManager.Instance.userIconImageIndex] == null)
         {
             Debug.LogWarning("userIcon.sprite is null. Assign a default sprite.");
         }
         else
         {
-            userIcon.sprite = PlayerDataManager.Instance.userIcon.sprite;
+            userIcon.sprite = UserManager.Instance.userIconImageList[PlayerDataManager.Instance.userIconImageIndex];
         }
 
         userName.text = PlayerDataManager.Instance.playerName ?? "Unknown Player";
