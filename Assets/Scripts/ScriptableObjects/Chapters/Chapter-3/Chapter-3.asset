@@ -18,18 +18,18 @@ MonoBehaviour:
   chapterGroundSprite: {fileID: 21300000, guid: ba9977327c4234eeb867235343f010f2, type: 3}
   chapterCharacter: {fileID: 6326789263313391527, guid: 5610a8f23ee6249bd89cf8095dfedcdf, type: 3}
   chapterCharacterLosePose: {fileID: 21300000, guid: 3e5f00a10a08f40b0a5cb3e7913ef44b, type: 3}
-  chapterItemsMaterialSprite: {fileID: 21300000, guid: 3f54ba3212e16447daf905426813c1d8, type: 3}
+  chapterItemsMaterialSprite: {fileID: 21300000, guid: 2a067332deda24c28a10c4ed7c6eb00e, type: 3}
   goalObjectImagelist:
-  - {fileID: 21300000, guid: cb82c04e760054fbe946b5467c667d2e, type: 3}
-  - {fileID: 21300000, guid: f569085eff9a0460d855e1414720259e, type: 3}
-  - {fileID: 21300000, guid: afea180d3721e4717b622ba36f015aef, type: 3}
-  - {fileID: 21300000, guid: 0f8bd06ee55054fb4998d99089295423, type: 3}
-  - {fileID: 21300000, guid: 2cea941acb57f434fa89c0906434d3d7, type: 3}
-  - {fileID: 21300000, guid: 6aeaea6d5dd634d6394bd21968dae898, type: 3}
-  - {fileID: 21300000, guid: 34f6ded2a45964ee0abd278519ee4157, type: 3}
-  - {fileID: 21300000, guid: 02a6c41554e79488693150bc8f7c92a7, type: 3}
-  - {fileID: 21300000, guid: 414ba376f6b1240df9d0c217f2ed2907, type: 3}
-  - {fileID: 21300000, guid: 9977405e54f504646990a764c1eec5c7, type: 3}
+  - {fileID: 21300000, guid: 4a5f01dd12a8f483fae2072f330d54aa, type: 3}
+  - {fileID: 21300000, guid: 53801a689d5604fc2b0c29a2301f145d, type: 3}
+  - {fileID: 21300000, guid: 88224994381ea41d5ab729b838a50334, type: 3}
+  - {fileID: 21300000, guid: 0d81e06bf63e74f0f94a464344751cf8, type: 3}
+  - {fileID: 21300000, guid: efd36389d3bb04a9d8b008df4397f616, type: 3}
+  - {fileID: 21300000, guid: 65d44dfba87384be092f4ae76c8778af, type: 3}
+  - {fileID: 21300000, guid: 1d6374a44c7f049aaa3fc03989ca079a, type: 3}
+  - {fileID: 21300000, guid: bde08db2210e2420c9442a24082448ab, type: 3}
+  - {fileID: 21300000, guid: de040b522f67c4a4da91cc522bec6136, type: 3}
+  - {fileID: 21300000, guid: ec78addbec22a49339bf3647a0653a68, type: 3}
   chapterMX: {fileID: 8300000, guid: 0006f5a672fe8488cac126e35db77bec, type: 3}
   levels:
   - {fileID: 11400000, guid: 64d6984bac5f446dca7e31864dc1cf78, type: 2}

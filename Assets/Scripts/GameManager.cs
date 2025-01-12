@@ -136,6 +136,9 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("PopupLose instance is null!");
         }
+        IncreaseGamePlayed();
+        PlayerDataManager.Instance.SavePlayerData();
+
     }
     public void GameWon()
     {
@@ -147,7 +150,9 @@ public class GameManager : MonoBehaviour
         ObstacleSpawner.Instance.LoseObstaceleSetting();
         CloudMovement.Instance.DestroyClouds();
         SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.Win);
-
+        IncreaseGamePlayed();
+        IncreaseGameWon();
+        PlayerDataManager.Instance.SavePlayerData();
         //StartCoroutine(SoundManager.Instance.SlowAndStopMusic());
 
     }
@@ -229,6 +234,15 @@ public class GameManager : MonoBehaviour
             StartPlaying();  // Start the game logic
             PlayerController.Instance.Jump();
         }
+    }
+    public void IncreaseGamePlayed()
+    {
+        PlayerDataManager.Instance.totalGamePlayed++;
+    }
+    public void IncreaseGameWon()
+    {
+        PlayerDataManager.Instance.totalGameWon++;
+
     }
 
 }

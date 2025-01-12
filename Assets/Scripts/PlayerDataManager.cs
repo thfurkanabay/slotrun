@@ -17,6 +17,10 @@ public class PlayerDataManager : MonoBehaviour
     public float xpMultiplier = 1.5f; // XP artış çarpanı
     public int completedLevel;
 
+    public int totalGamePlayed;
+    public int totalGameWon;
+
+
     public UserManager userManager;
     public static PlayerDataManager Instance;
 
@@ -70,19 +74,18 @@ public class PlayerDataManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerCoins", playerCoins);
         PlayerPrefs.SetInt("PlayerGems", playerGems);
         PlayerPrefs.SetInt("UserLevel", userLevel);
-
-
         PlayerPrefs.SetFloat("CurrentXP", currentXP);
         PlayerPrefs.SetFloat("RequiredXP", requiredXP);
         PlayerPrefs.SetFloat("BaseXP", baseXP);
         PlayerPrefs.SetFloat("XpMultiplier", xpMultiplier);
-
         PlayerPrefs.SetInt("UserBadges", userBadgeImageIndex);
-
         PlayerPrefs.SetInt("UserIcon", userIconImageIndex);
-
-
         PlayerPrefs.SetInt("CompletedLevel", completedLevel);
+
+        PlayerPrefs.SetInt("TotalGamePlayed", totalGamePlayed);
+        PlayerPrefs.SetInt("TotalGameWon", totalGameWon);
+
+
         PlayerPrefs.Save();
     }
 
@@ -104,7 +107,8 @@ public class PlayerDataManager : MonoBehaviour
         userBadgeImageIndex = PlayerPrefs.GetInt("UserBadge", 0);
         userIconImageIndex = PlayerPrefs.GetInt("UserIcon", 0);
 
-        Debug.Log("UserBadgeImageIndex: " + userBadgeImageIndex);
+        totalGamePlayed = PlayerPrefs.GetInt("TotalGamePlayed", 0);
+        totalGameWon = PlayerPrefs.GetInt("TotalGameWon", 0);
 
 
     }
@@ -117,5 +121,7 @@ public class PlayerDataManager : MonoBehaviour
         currentXP = 0f; // XP'yi sıfırla
         GenerateRandomPlayerName(); // Yeni rastgele isim oluştur
     }
+
+
 
 }

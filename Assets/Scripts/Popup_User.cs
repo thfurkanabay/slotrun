@@ -12,6 +12,8 @@ public class Popup_User : Popup
     public TextMeshProUGUI userLevel;
     public TextMeshProUGUI userCoin;
     public TextMeshProUGUI userGem;
+    public TextMeshProUGUI userGamePlayed;
+    public TextMeshProUGUI userGameWon;
 
     // Start is called before the first frame update
     void Start()
@@ -55,5 +57,7 @@ public class Popup_User : Popup
         userLevel.text = PlayerDataManager.Instance.userLevel.ToString();
         userCoin.text = PlayerDataManager.Instance.playerCoins.ToString();
         userGem.text = PlayerDataManager.Instance.playerGems.ToString();
+        userGamePlayed.text = PlayerDataManager.Instance.totalGamePlayed.ToString();
+        userGameWon.text = PlayerDataManager.Instance.totalGameWon.ToString();
     }
 }
