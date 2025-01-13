@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public bool isPlayerDead;
 
+    [Header("Animation Settings")]
+    private Animator animator;
+    public bool isPlayerFliesUp;
+
     [Header("Spawn Settings")]
     public Transform spawnPoint; // Oyuncunun yeniden doğacağı nokta
 
@@ -19,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>(); // Animator bileşenini al
 
         // Singleton Instance ayarı
         if (Instance != null && Instance != this)
@@ -45,6 +50,14 @@ public class PlayerController : MonoBehaviour
     public void Jump()
     {
         rb.velocity = Vector2.up * jumpForce;
+        if (animator != null)
+        {
+            if (animator != null)
+            {
+                animator.Play("fly_up", -1, 0f); // fly_idle animasyonunu sıfırdan başlat
+                SoundManager.Instance.PlaySFX(SoundManager.SoundEffect.Flapping);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -93,5 +106,6 @@ public class PlayerController : MonoBehaviour
     {
         rb.gravityScale = rbValue;
     }
+
 
 }

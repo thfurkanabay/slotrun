@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public EntryFee entryFee;
     public GameObject screenTransition;
 
+    public PerformanceManager performanceManager;
+
     public enum GameState
     {
         MainMenu,
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
         GameWon,
         GameLose,
         GameOver,
+        Shop
 
     }
     private void Awake()
@@ -62,8 +65,15 @@ public class GameManager : MonoBehaviour
         switch (currentGameState)
         {
             case GameState.MainMenu:
-                Debug.Log("Game State: Main Menu");
-                SoundManager.Instance.PlayMusic(menuMusic, true);
+                if (SoundManager.Instance != null)
+                {
+                    // Check if the current music is the menuMusic and if it is playing
+                    if (!SoundManager.Instance.IsMusicPlaying())
+                    {
+                        // Play the menu music if it's not already playing or it's a different track
+                        SoundManager.Instance.PlayMusic(menuMusic, true);
+                    }
+                }
                 UIManager.Instance.OpenScreen("MainMenu");
                 Time.timeScale = 1; // Normal game time
                 break;
@@ -92,6 +102,10 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Game State: Game Lose");
                 UIManager.Instance.OpenPopup("Popup_Lose");
                 break;
+            case GameState.Shop:
+                Debug.Log("Game State: Shop");
+                UIManager.Instance.OpenScreen("Shop");
+                break;
             default:
                 Debug.LogWarning("Unhandled game state!");
                 break;
@@ -114,6 +128,10 @@ public class GameManager : MonoBehaviour
         ChangeGameState(GameState.GamePlaying);
     }
 
+    public void ShopScreen()
+    {
+        ChangeGameState(GameState.Shop);
+    }
     public void GameOver()
     {
         ChangeGameState(GameState.GameOver);
@@ -137,6 +155,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("PopupLose instance is null!");
         }
         IncreaseGamePlayed();
+
         PlayerDataManager.Instance.SavePlayerData();
 
     }

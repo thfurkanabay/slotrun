@@ -29,7 +29,7 @@ public class SoundManager : MonoBehaviour
     public enum SoundEffect
     {
         ButtonClick, InfoButtonClick, CollectiblePickup, MenuOpen, GameOver, Spin, ObjectAppear, ObstacleAnim, Win, RewardCoinCollect,
-        RewardGemCollect, RewardXPCollect, DecreaseBet, IncreaseBet, NotEnoughCoins
+        RewardGemCollect, RewardXPCollect, DecreaseBet, IncreaseBet, NotEnoughCoins, Flapping
 
 
     }
@@ -199,5 +199,9 @@ public class SoundManager : MonoBehaviour
             musicSource.pitch = 1f;
             musicSource.volume = musicVolume;
         }
+    }
+    public bool IsMusicPlaying()
+    {
+        return musicSource.isPlaying; // Assuming `musicSource` is your AudioSource for music
     }
 }
