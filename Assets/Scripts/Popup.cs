@@ -18,19 +18,20 @@ public class Popup : MonoBehaviour
             popupAnimation.Play(openPopupAnimation);
             StartCoroutine(WaitForAnimation());
         }
+        Debug.Log($"{gameObject.name} Open:");
+
     }
 
     // Popup'ı kapatma fonksiyonu
     public void ClosePopup()
     {
-        Debug.Log("Popup Close");
-
         if (!isAnimating && popupAnimation != null)
         {
             isAnimating = true;
             popupAnimation.Play(closePopupAnimation);
             StartCoroutine(DisableAfterAnimation());
         }
+        Debug.Log($"{gameObject.name} : Close");
     }
 
     // Animasyonun bitmesini bekleyen bir coroutine

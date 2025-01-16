@@ -108,7 +108,6 @@ public class SoundManager : MonoBehaviour
     {
         if (sfxDictionary.TryGetValue(effect, out AudioClip clip))
         {
-            Debug.Log($"Playing sound effect: {effect}");
             sfxSource.PlayOneShot(clip);
         }
         else

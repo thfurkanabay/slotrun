@@ -142,8 +142,9 @@ public class ObstacleSpawner : MonoBehaviour
             float topStartY = SpawnUpSet(obstacleSet, topTileCount);
 
             // Collectable nesne ekle (boşluk içinde)
-            if (topStartY > bottomEndY) // Boşluk kontrolü
+            if (topStartY > bottomEndY)
             {
+                Debug.Log("Spawn Slot");
                 SpawnSlot(obstacleSet, bottomEndY, topStartY);
             }
 
@@ -192,6 +193,10 @@ public class ObstacleSpawner : MonoBehaviour
         // Yüksekliği geri döndür (bottomTile'ın alt kısmı)
         return position.y - bottomTile.GetComponent<Renderer>().bounds.size.y;
     }
+    void UpdateMaterials()
+    {
+
+    }
     private void SpawnSlot(GameObject parent, float bottomEndY, float topStartY)
     {
         float centerOfYBound = (bottomEndY + topStartY) / 2;
@@ -200,8 +205,38 @@ public class ObstacleSpawner : MonoBehaviour
         // Slot prefab'ını instantiate et
         GameObject slot = Instantiate(slotPrefab, positionSlot, Quaternion.identity);
 
-        // Slot'un mesh renderer bileşenine ulaş
-        MeshRenderer meshRenderer = slot.GetComponent<MeshRenderer>();
+        // Slot içindeki tüm çocukları al
+        Transform[] childObjects = slot.GetComponentsInChildren<Transform>();
+
+        // Mevcut chapterın hedef image listesini alın
+        var goalObjectImages = ChapterManager.Instance.chapters[ChapterManager.Instance.currentChapterIndex].goalObjectImagelist;
+
+        // Çocukları döngüye al
+        for (int i = 0; i < childObjects.Length; i++)
+        {
+            // İlk transform parent olur, bu yüzden atlıyoruz
+            if (childObjects[i] == slot.transform)
+                continue;
+
+            if (i - 1 < goalObjectImages.Count) // Hedef resim listesiyle eşleştiğinden emin olun
+            {
+                // MeshRenderer'ı al
+                MeshRenderer meshRenderer = childObjects[i].GetComponent<MeshRenderer>();
+                if (meshRenderer != null)
+                {
+                    // Mevcut materyali al
+                    Material material = meshRenderer.material;
+
+                    // Sprite'ı Texture'a dönüştür ve albedo (main texture) olarak ayarla
+                    Sprite sprite = goalObjectImages[i - 1];
+                    if (sprite != null)
+                    {
+                        material.SetTexture("_MainTex", sprite.texture);
+                    }
+                }
+            }
+        }
+        /*MeshRenderer meshRenderer = slot.GetComponent<MeshRenderer>();
         if (meshRenderer != null)
         {
             // Mevcut materyali al
@@ -218,17 +253,18 @@ public class ObstacleSpawner : MonoBehaviour
                 // Material'in texture'ını değiştir
                 slotMaterial.mainTexture = texture;
             }
-        }
+        }*/
 
         // Slot script'i al ve coroutine başlat
         Slot slotScript = slot.GetComponent<Slot>();
         if (slotScript != null)
         {
-            slotScript.StartCoroutine(slotScript.StopAndDestroySlot());
+            slotScript.ChooseSelectedItem();
+            slotScript.StartCoroutine(slotScript.SpinAndSlowDown());
         }
 
         // Slot'un rotasyonunu ayarla
-        slot.transform.rotation = Quaternion.Euler(0, -90, 0);
+        //slot.transform.rotation = Quaternion.Euler(0, -90, 0);
         slot.transform.SetParent(parent.transform);
 
         // Slot tamamlandığında collectable spawn et
@@ -242,7 +278,7 @@ public class ObstacleSpawner : MonoBehaviour
     private IEnumerator WaitForSlotToFinishAndSpawnCollectable(Slot slotScript, GameObject parent, float bottomEndY, float topStartY)
     {
         // Wait for the isSlotFinish flag to become true
-        while (!slotScript.isSlotStop)
+        while (!slotScript.isSlotStopped)
         {
             yield return null; // Wait for the next frame
         }
@@ -267,6 +303,9 @@ public class ObstacleSpawner : MonoBehaviour
         GameObject collectable = Instantiate(collectablePrefab, position, Quaternion.identity);
         collectable.transform.SetParent(parent.transform);
         collectable.GetComponent<Animation>().Play();
+
+        Debug.Log("chapter selected: " + ChapterManager.Instance.chapters[ChapterManager.Instance.currentChapterIndex].selectedItemIndex);
+        AssignSlotItem(ChapterManager.Instance.chapters[ChapterManager.Instance.currentChapterIndex].selectedItemIndex);
 
         if (selectedSlotItemIndex >= 0)  // Check if the index is valid
         {

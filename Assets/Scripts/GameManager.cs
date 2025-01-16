@@ -39,15 +39,12 @@ public class GameManager : MonoBehaviour
     }
     public AudioClip menuMusic;
 
-    private void Update()
-    {
-        Debug.Log("currentGameState: " + currentGameState);
-    }
     public GameState currentGameState; // Current state of the game
     public Level currentLevel;
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Game is starting...");
         InitializeGame();
     }
 
@@ -60,6 +57,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeGameState(GameState newState)
     {
+        Debug.Log("currentGameState: " + currentGameState);
+
         currentGameState = newState;
 
         switch (currentGameState)

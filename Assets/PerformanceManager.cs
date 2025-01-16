@@ -115,7 +115,7 @@ public class PerformanceManager : MonoBehaviour
 
     private void UpdatePerformance()
     {
-        Debug.Log($"Performance Score: {performanceScore}, Performance Level: {GetPerformanceLevel()}");
+        //Debug.Log($"Performance Score: {performanceScore}, Performance Level: {GetPerformanceLevel()}");
     }
 
     // Örnek kullanım: Hedef nesne oluşturma olasılığına göre

@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour
     }
     public void OpenScreen(string screenName)
     {
+        Debug.Log($"Opened Screen Name: {screenName}");
+
         foreach (var screen in screens)
         {
             if (screen.name == screenName)
