@@ -193,10 +193,7 @@ public class ObstacleSpawner : MonoBehaviour
         // Yüksekliği geri döndür (bottomTile'ın alt kısmı)
         return position.y - bottomTile.GetComponent<Renderer>().bounds.size.y;
     }
-    void UpdateMaterials()
-    {
 
-    }
     private void SpawnSlot(GameObject parent, float bottomEndY, float topStartY)
     {
         float centerOfYBound = (bottomEndY + topStartY) / 2;

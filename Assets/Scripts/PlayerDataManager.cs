@@ -116,10 +116,25 @@ public class PlayerDataManager : MonoBehaviour
     public void ResetPlayerData()
     {
         PlayerPrefs.DeleteAll();
-        playerName = null; // İsmi sıfırla
-        userLevel = 1; // Seviyeyi sıfırla
-        currentXP = 0f; // XP'yi sıfırla
+
+        // Bellekteki değişkenleri sıfırla
+        playerName = null;
+        playerCoins = 0;
+        playerGems = 0;
+        userLevel = 1;
+        currentXP = 0f;
+        requiredXP = 0f;
+        baseXP = 10f;
+        xpMultiplier = 1.5f;
+        userBadgeImageIndex = 0;
+        userIconImageIndex = 0;
+        completedLevel = 0;
+        totalGamePlayed = 0;
+        totalGameWon = 0;
+
         GenerateRandomPlayerName(); // Yeni rastgele isim oluştur
+
+        SavePlayerData(); // Yeni değerleri kaydet
     }
 
 

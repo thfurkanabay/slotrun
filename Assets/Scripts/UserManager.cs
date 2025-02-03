@@ -38,7 +38,7 @@ public class UserManager : MonoBehaviour
     public float xpMultiplier = 1.5f; // XP artış çarpanı
 
     [Header("UI Elements")]
-    public Slider userLevelSlider; // Seviye ilerleme çubuğu
+    public List<Slider> userLevelSlider; // Seviye ilerleme çubuğu
 
 
     public static UserManager Instance;
@@ -85,16 +85,26 @@ public class UserManager : MonoBehaviour
         UpdateUserBadges(); // Update user badges
         UpdateUserIcon(); // Update user icon
 
-
         gemsText.text = playerDataManager.playerGems.ToString();
 
 
         playerNameText.text = playerDataManager.playerName;
-        userLevelSlider.maxValue = playerDataManager.requiredXP;
-        userLevelSlider.value = playerDataManager.currentXP;
+
+        UpdateLevelSlider();
+
+        //userLevelSlider.maxValue = playerDataManager.requiredXP;
+        //userLevelSlider.value = playerDataManager.currentXP;
 
         PlayerDataManager.Instance.SavePlayerData();
 
+    }
+    private void UpdateLevelSlider()
+    {
+        for (int i = 0; i < userLevelSlider.Count; i++)
+        {
+            userLevelSlider[i].maxValue = playerDataManager.requiredXP;
+            userLevelSlider[i].value = playerDataManager.currentXP;
+        }
     }
 
     private void UpdateCoinText()
@@ -235,12 +245,12 @@ public class UserManager : MonoBehaviour
     /// <summary>
     /// Test Purpose
     /// </summary>
-    /*public void ResetButton()
+    public void ResetButton()
     {
         Debug.Log("All Player datas reset");
         playerDataManager.ResetPlayerData();
         UpdateUI();
-    }*/
+    }
     public void AssignUserBadge()
     {
         // Kontrol: `userBadgeImageList` boşsa hata önle

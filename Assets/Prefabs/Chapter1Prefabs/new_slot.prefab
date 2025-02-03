@@ -55,50 +55,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 300
-  slowDownDuration: 3
+  spinDuration: 2
+  slowDownDuration: 2
   isSlotStopped: 0
   currentChapterIndex: 0
-  slotChildren:
-  - {fileID: 6011970849265788524}
-  - {fileID: 9056750004573299621}
-  - {fileID: 1411234373582879677}
-  - {fileID: 4951251519511833479}
-  - {fileID: 5974496461332021519}
-  - {fileID: 3158863699393224141}
-  - {fileID: 9184399196677662003}
-  - {fileID: 7651521065480267649}
-  - {fileID: 1218981671369960377}
-  - {fileID: 8811551715143628371}
   slotItems:
   - itemIndex: 0
-    probability: 0
+    probability: 10
     angle: 0
   - itemIndex: 1
-    probability: 0
+    probability: 10
     angle: 36
   - itemIndex: 2
-    probability: 0
+    probability: 10
     angle: 72
   - itemIndex: 3
-    probability: 0
+    probability: 10
     angle: 108
   - itemIndex: 4
-    probability: 0
+    probability: 10
     angle: 144
   - itemIndex: 5
-    probability: 0
+    probability: 10
     angle: 180
   - itemIndex: 6
-    probability: 0
+    probability: 10
     angle: 216
   - itemIndex: 7
-    probability: 0
+    probability: 10
     angle: 252
   - itemIndex: 8
-    probability: 0
+    probability: 10
     angle: 288
   - itemIndex: 9
-    probability: 100
+    probability: 10
     angle: 314
 --- !u!1 &422318986491100937
 GameObject:

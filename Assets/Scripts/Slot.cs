@@ -6,7 +6,7 @@ public class Slot : MonoBehaviour
 {
     public float rotationSpeed = 300f; // Başlangıç dönüş hızı
     public float spinDuration = 1f; // Sabit hızda dönme süresi
-    public float slowDownDuration = 2f; // Yavaşlama süresi
+    public float slowDownDuration = 1f; // Yavaşlama süresi
     public bool isSlotStopped = false; // Slot durdu mu?
     public int currentChapterIndex; // Mevcut chapter
     private int selectedItemIndex; // Seçilen nesnenin indeksi
@@ -23,10 +23,10 @@ public class Slot : MonoBehaviour
 
     private void Start()
     {
-        //ChooseSelectedItem();
-
+        currentChapterIndex = ChapterManager.Instance.currentChapterIndex;
         transform.eulerAngles = new Vector3(180f, -90f, 0f);
     }
+
     public void ChooseSelectedItem()
     {
         float totalProbability = 0f;
@@ -53,60 +53,76 @@ public class Slot : MonoBehaviour
 
     public IEnumerator SpinAndSlowDown()
     {
-        Debug.Log("Slowed selectedItemIndex: " + selectedItemIndex);
+        // Hedef açı
         float targetAngle = slotItems[selectedItemIndex].angle;
 
-        // Sabit hızda dönme
+        // Mevcut açı
+        float currentZRotation = transform.eulerAngles.z;
+
+        // **1. Aşama: Sabit Hızda Dönüş**
         float elapsedTime = 0f;
+
         while (elapsedTime < spinDuration)
         {
             elapsedTime += Time.deltaTime;
-            transform.Rotate(Vector3.back * rotationSpeed * Time.deltaTime);
-            yield return null;
-        }
 
-        // Yavaşlama süreci
-        float initialSpeed = rotationSpeed;
-        elapsedTime = 1f;
-        float currentZRotation = transform.eulerAngles.z;
+            // Sabit hızla dönüş
+            currentZRotation += rotationSpeed * Time.deltaTime;
 
-        while (elapsedTime < slowDownDuration)
-        {
-            elapsedTime += Time.deltaTime;
-
-            // Hız azaltılıyor
-            rotationSpeed = Mathf.Lerp(initialSpeed, 0f, elapsedTime / slowDownDuration);
-
-            // Mevcut açıdan 360'a doğru ilerle ve sonra hedef açıya geç
-            float angleDifference = (targetAngle - currentZRotation + 360f) % 360f; // Saat yönünde hesapla
-            if (angleDifference < 0) angleDifference += 360f; // Negatif olmasın
-
-            // Eğer mevcut açı hedef açıdan daha küçükse, önce 360'a tamamla
-            if (currentZRotation < targetAngle)
-            {
-                // 360'a doğru dönecek adımı hesapla
-                float stepTo360 = Mathf.Min((360f - currentZRotation), rotationSpeed * Time.deltaTime);
-                currentZRotation += stepTo360;
-
-                // Eğer 360'a ulaştıysa, artık hedef açıya yönel
-                if (currentZRotation >= 360f)
-                {
-                    currentZRotation = 0f;
-                }
-            }
-
-            // Sonra hedef açıya doğru ilerle
-            float stepToTarget = Mathf.Min(angleDifference, rotationSpeed * Time.deltaTime);
-            currentZRotation += stepToTarget;
+            // Açı normalize ediliyor
+            currentZRotation %= 360f;
 
             // Yeni açıyı uygula
-            transform.eulerAngles = new Vector3(180f, -90f, currentZRotation % 360f); // Açı normalize ediliyor
+            transform.eulerAngles = new Vector3(180f, -90f, currentZRotation);
 
-            Debug.Log($"Mevcut açı: {transform.eulerAngles.z}, Hedef açı: {targetAngle}, Hız: {rotationSpeed}");
             yield return null;
         }
 
-        // Açıyı kesin olarak hedefe ayarla
+        // **2. Aşama: Yavaşlama ve Hedef Açıya Ulaşma**
+        float initialSpeed = rotationSpeed; // Başlangıç dönüş hızı
+        elapsedTime = 0f;
+
+        while (true)
+        {
+            // Hedef açıya olan farkı hesapla
+            float angleDifference = (targetAngle - currentZRotation + 360f) % 360f;
+
+            // Eğer açı farkı çok küçükse döngüyü kır
+            if (angleDifference < 0.1f)
+            {
+                currentZRotation = targetAngle;
+                break;
+            }
+
+            // Hız azaltılıyor
+            rotationSpeed = Mathf.SmoothStep(initialSpeed, 0f, elapsedTime / slowDownDuration);
+            elapsedTime += Time.deltaTime;
+
+            // Dönüş adımı
+            float rotationStep = rotationSpeed * Time.deltaTime;
+
+            // Eğer adım, kalan açı farkından büyükse, direkt hedef açıda dur
+            if (rotationStep >= angleDifference)
+            {
+                currentZRotation = targetAngle;
+                break;
+            }
+            else
+            {
+                // Normal dönüşe devam
+                currentZRotation += rotationStep;
+            }
+
+            // Açı normalize ediliyor
+            currentZRotation %= 360f;
+
+            // Yeni açıyı uygula
+            transform.eulerAngles = new Vector3(180f, -90f, currentZRotation);
+
+            yield return null;
+        }
+
+        // Hedef açıyı kesin olarak ayarla
         transform.eulerAngles = new Vector3(180f, -90f, targetAngle);
 
         Debug.Log($"Slot durdu. Hedef açıda: {transform.eulerAngles.z}");
@@ -117,7 +133,8 @@ public class Slot : MonoBehaviour
         // Seçilen itemi ChapterManager'a bildir
         NotifyChapterManager();
 
-        // Destroy işlemi
+        // Biraz bekle ve slotu yok et
+        yield return new WaitForSeconds(0.5f); // Yavaşlama bittikten sonra 0.5 saniye bekle
         Destroy(gameObject);
     }
 

@@ -108,6 +108,8 @@ public class UIManager : MonoBehaviour
     {
         while (activePopups.Count > 0)
         {
+            Debug.Log(activePopups.Count + " popup left to close.");
+            Debug.Log("All popup closed");
             var popupToClose = activePopups.Pop();
             var popupComponent = popupToClose.GetComponent<Popup>();
             if (popupComponent != null)
