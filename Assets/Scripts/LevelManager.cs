@@ -11,15 +11,6 @@ public class LevelManager : MonoBehaviour
     public Slider levelSlider;
     public bool isCurrentLevelComplete;
 
-    /*public bool IsCurrentGoalObject(bool isCurrentGoalObject)
-    {
-        if ()
-        {
-            return true;
-
-        }
-    }*/
-
 
     public void PlaySFX() { }
 

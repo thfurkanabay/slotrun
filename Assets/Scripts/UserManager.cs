@@ -60,18 +60,19 @@ public class UserManager : MonoBehaviour
     void Update()
     {
         // Test amaçlı XP eklemek için
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             IncreaseCoins(100); // 15 XP ekler
             IncreaseGems(10);
             IncreaseXP(10);
-        }
+        }*/
 
     }
 
     public void InitializeUser()
     {
         playerDataManager = FindObjectOfType<PlayerDataManager>();
+        IncreaseCoins(1000);
         // Mevcut değerleri UI'ya yansıt
         UpdateUI();
     }

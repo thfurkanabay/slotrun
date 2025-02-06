@@ -118,7 +118,8 @@ public class GameManager : MonoBehaviour
     public void BackToMainMenu()
     {
         ChangeGameState(GameState.MainMenu);
-        SoundManager.Instance.ResetMusic();
+        SoundManager.Instance.PlayMusic(menuMusic, true);
+        //SoundManager.Instance.ResetMusic();
         groundMovement.StopMovement();
     }
 
@@ -143,7 +144,10 @@ public class GameManager : MonoBehaviour
 
         ObstacleSpawner.Instance.LoseObstaceleSetting();
         CloudMovement.Instance.DestroyClouds();
+
         StartCoroutine(SoundManager.Instance.SlowAndStopMusic());
+
+        PopupLose.Instance.StartCoroutine(PopupLose.Instance.ActivateButtons());
 
         if (PopupLose.Instance != null)
         {
@@ -154,6 +158,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("PopupLose instance is null!");
         }
         IncreaseGamePlayed();
+
 
         PlayerDataManager.Instance.SavePlayerData();
 

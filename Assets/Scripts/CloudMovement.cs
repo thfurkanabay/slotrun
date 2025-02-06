@@ -96,7 +96,7 @@ public class CloudMovement : MonoBehaviour
         Vector3 spawnPosition = new Vector3(
             spawnX,
             Random.Range(spawnHeightMin, spawnHeightMax),
-            -1 // Z ekseni sabit
+            -0.5f // Z ekseni sabit
         );
 
         // Bulutu oluştur ve parent olarak Clouds GameObject'ini ayarla

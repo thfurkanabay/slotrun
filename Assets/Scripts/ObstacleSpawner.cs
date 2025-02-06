@@ -197,8 +197,8 @@ public class ObstacleSpawner : MonoBehaviour
     private void SpawnSlot(GameObject parent, float bottomEndY, float topStartY)
     {
         float centerOfYBound = (bottomEndY + topStartY) / 2;
-        Vector3 positionSlot = new Vector3(spawnStartPoint.position.x, centerOfYBound, -2);
-
+        //Vector3 positionSlot = new Vector3(spawnStartPoint.position.x, centerOfYBound, -2);
+        Vector3 positionSlot = new Vector3(spawnStartPoint.position.x, centerOfYBound, 0);
         // Slot prefab'ını instantiate et
         GameObject slot = Instantiate(slotPrefab, positionSlot, Quaternion.identity);
 

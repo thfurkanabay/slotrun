@@ -10,28 +10,28 @@ public class UIManager : MonoBehaviour
     [System.Serializable]
     public class Panel
     {
-        public string name;      // Panel adı
-        public GameObject panel; // Panel GameObject
+        public string name;
+        public GameObject panel;
     }
 
-    [SerializeField] private List<Panel> screens; // Tüm ana ekranların listesi
-    [SerializeField] private List<Popup> popups;  // Tüm popup pencerelerin listesi
+    [SerializeField] private List<Panel> screens;
+    [SerializeField] private List<Popup> popups;
 
-    private GameObject currentScreen; // Şu anda aktif olan ana ekran
-    private Stack<GameObject> activePopups = new Stack<GameObject>(); // Aktif popup'ları takip eder
+    private GameObject currentScreen;
+    private List<GameObject> activePopups = new List<GameObject>(); // Açık popuplar listesi
     public Button coinCollectionButton;
 
     private void Awake()
     {
-        // Singleton Instance ayarı
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Daha önce bir instance varsa yok et
+            Destroy(gameObject);
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Sahne değişimlerinde bile kalıcı yap
+        DontDestroyOnLoad(gameObject);
     }
+
     public void OpenScreen(string screenName)
     {
         Debug.Log($"Opened Screen Name: {screenName}");
@@ -41,11 +41,11 @@ public class UIManager : MonoBehaviour
             if (screen.name == screenName)
             {
                 if (currentScreen != null)
-                    currentScreen.SetActive(false); // Şu anki ekranı kapat
+                    currentScreen.SetActive(false);
 
-                screen.panel.SetActive(true); // Yeni ekranı aktif et
-                currentScreen = screen.panel; // Güncel ekranı sakla
-                CloseAllPopups(); // Ekran değiştiğinde tüm popup'ları kapat
+                screen.panel.SetActive(true);
+                currentScreen = screen.panel;
+                CloseAllPopups();
                 return;
             }
         }
@@ -53,11 +53,6 @@ public class UIManager : MonoBehaviour
         Debug.LogWarning($"Screen with name {screenName} not found.");
     }
 
-    /// <summary>
-    /// Belirtilen popup penceresini aktif eder.
-    /// Ana ekranı kapatmadan popup'ı açar.
-    /// </summary>
-    /// <param name="popupName">Açılacak popup'ın adı.</param>
     public void OpenPopup(string popupName)
     {
         foreach (var popup in popups)
@@ -66,33 +61,37 @@ public class UIManager : MonoBehaviour
             {
                 popup.OpenPopup();
                 popup.gameObject.SetActive(true);
-                activePopups.Push(popup.gameObject); // Popup'ı yığına ekle
+                activePopups.Add(popup.gameObject); // Listeye ekle
                 return;
             }
         }
 
         Debug.LogWarning($"Popup with name {popupName} not found.");
     }
-
-    /// <summary>
-    /// En üstteki popup'ı kapatır.
-    /// </summary>
-    /// <summary>
-    /// En üstteki popup'ı kapatır.
-    /// </summary>
     public void CloseTopPopup()
     {
         if (activePopups.Count > 0)
         {
-            var popupToClose = activePopups.Pop();
-            var popupComponent = popupToClose.GetComponent<Popup>();
-            if (popupComponent != null)
+            int lastIndex = activePopups.Count - 1;
+            GameObject popupToClose = activePopups[lastIndex]; // Son popup'ı al
+            activePopups.RemoveAt(lastIndex); // Stack yerine List olduğu için RemoveAt kullan
+
+            if (popupToClose.activeSelf) // Eğer popup hala aktifse kapat
             {
-                popupComponent.ClosePopup();
+                var popupComponent = popupToClose.GetComponent<Popup>();
+
+                if (popupComponent != null)
+                {
+                    popupComponent.ClosePopup();
+                }
+                else
+                {
+                    Debug.LogWarning("Popup component not found on the GameObject.");
+                }
             }
             else
             {
-                Debug.LogWarning("Popup component not found on the GameObject.");
+                Debug.LogWarning("Trying to close an already inactive popup.");
             }
         }
         else
@@ -101,16 +100,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Tüm popup pencerelerini kapatır.
-    /// </summary>
     public void CloseAllPopups()
     {
         while (activePopups.Count > 0)
         {
-            Debug.Log(activePopups.Count + " popup left to close.");
-            Debug.Log("All popup closed");
-            var popupToClose = activePopups.Pop();
+            var popupToClose = activePopups[activePopups.Count - 1];
+            activePopups.RemoveAt(activePopups.Count - 1);
             var popupComponent = popupToClose.GetComponent<Popup>();
             if (popupComponent != null)
             {
@@ -122,6 +117,7 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
     public void LevelPopupCloseButton()
     {
         Debug.Log("LevelPopupCloseButton Clicked");
@@ -137,9 +133,4 @@ public class UIManager : MonoBehaviour
             CloseTopPopup();
         }
     }
-    /*public void CoinCollectionButton()
-    {
-        CoinCollection.Instance.CollectCoinsInSequence(coinCollectionButton.transform.position, 2);
-
-    }*/
 }

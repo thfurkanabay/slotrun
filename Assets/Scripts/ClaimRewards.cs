@@ -80,6 +80,10 @@ public class ClaimRewards : MonoBehaviour
         // Tüm ödüller spawnlandığında popupı kapat
         UIManager.Instance.CloseAllPopups();
         UIManager.Instance.OpenPopup("Popup_After_Won");
+
+        PopupAfterWon.Instance.DeactivateButton();
+        PopupAfterWon.Instance.StartCoroutine(PopupAfterWon.Instance.ActivateButtons());
+
     }
 
     private IEnumerator SpawnRewards(GameObject prefab, Vector3 startPos, Vector3 endPos, RewardType rewardType)
@@ -104,7 +108,8 @@ public class ClaimRewards : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
 
             // Yeni bir ödül oluştur ve uygun konteynıra ekle
-            Transform targetContainer = rewardType == RewardType.Coin && bonusRewardsStartPos != null ? bonusRewardContainer : rewardContainer;
+            //Transform targetContainer = rewardType == RewardType.Coin && bonusRewardsStartPos != null ? bonusRewardContainer : rewardContainer;
+            Transform targetContainer = rewardContainer;
 
             GameObject reward = Instantiate(prefab, targetContainer);
             RectTransform rewardTransform = reward.GetComponent<RectTransform>();

@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Chapter-2
   m_EditorClassIdentifier: 
   chapterName: Chritmas Trees
-  chapterDescription: Christmas Concept Level
+  chapterDescription: 'As Lucy enters the snow-covered Christmas Trees universe,
+    Lucy must learn to slide and navigate through obstacles among the sparkling trees.
+    On this challenging journey, Lucy needs to quickly maneuver through the snowflakes
+    to uncover Lumina. '
   chapterBackGroundSprite: {fileID: 21300000, guid: 1eb9bedb878194e9c99354b0e46285cd, type: 3}
   chapterGroundSprite: {fileID: 21300000, guid: 422f59d2dbf4f4b4ca5fd25fad7802c9, type: 3}
-  chapterCharacter: {fileID: 6326789263313391527, guid: d4b3d02d7b4cf40278932516fac82fe8, type: 3}
-  chapterCharacterLosePose: {fileID: 21300000, guid: 3e5f00a10a08f40b0a5cb3e7913ef44b, type: 3}
+  chapterCharacter: {fileID: 7388144283287816569, guid: cc4990bf94a004b969ee9f5fae698ecd, type: 3}
+  chapterCharacterLosePose: {fileID: 21300000, guid: 67da31afa818c4fc19e26e52e06690ae, type: 3}
   chapterItemsMaterialSprite: {fileID: 21300000, guid: 3f54ba3212e16447daf905426813c1d8, type: 3}
   goalObjectImagelist:
   - {fileID: 21300000, guid: cb82c04e760054fbe946b5467c667d2e, type: 3}
@@ -30,6 +33,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 02a6c41554e79488693150bc8f7c92a7, type: 3}
   - {fileID: 21300000, guid: 414ba376f6b1240df9d0c217f2ed2907, type: 3}
   - {fileID: 21300000, guid: 9977405e54f504646990a764c1eec5c7, type: 3}
+  selectedItemIndex: 5
   chapterMX: {fileID: 8300000, guid: 642ea2140f6464ee0953ff1dc39b2fe9, type: 3}
   levels:
   - {fileID: 11400000, guid: 64d6984bac5f446dca7e31864dc1cf78, type: 2}

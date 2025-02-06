@@ -9,6 +9,7 @@ public class PopupLose : Popup
     public int chapterNo;
 
     public static PopupLose Instance;
+    public List<Button> buttons;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,13 +26,10 @@ public class PopupLose : Popup
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void SetLosePopup()
     {
+        DeactivateButton();
+
         UpdatePopupLose();
     }
     public void UpdatePopupLose()
@@ -52,6 +50,22 @@ public class PopupLose : Popup
         UIManager.Instance.OpenPopup("Popup_Level");
 
     }
-
-
+    public IEnumerator ActivateButtons()
+    {
+        yield return new WaitForSeconds(2.1f);
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            buttons[i].interactable = true;
+        }
+    }
+    public void DeactivateButton()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            buttons[i].interactable = false;
+        }
+    }
 }
+
+
+

@@ -135,7 +135,11 @@ public class Slot : MonoBehaviour
 
         // Biraz bekle ve slotu yok et
         yield return new WaitForSeconds(0.5f); // Yavaşlama bittikten sonra 0.5 saniye bekle
+
+        SoundManager.Instance.StopSFX();
+
         Destroy(gameObject);
+
     }
 
     private void NotifyChapterManager()

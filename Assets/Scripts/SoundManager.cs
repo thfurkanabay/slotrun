@@ -25,7 +25,6 @@ public class SoundManager : MonoBehaviour
     public bool musicMuted = false;
     public bool sfxMuted = false;
 
-
     public enum SoundEffect
     {
         ButtonClick, InfoButtonClick, CollectiblePickup, MenuOpen, GameOver, Spin, ObjectAppear, ObstacleAnim, Win, RewardCoinCollect,
@@ -85,6 +84,8 @@ public class SoundManager : MonoBehaviour
             musicSource.clip = musicClip;
             musicSource.loop = loop;
             musicSource.Play();
+
+            Debug.Log($"Music Clip'{musicClip}'" + "is playing");
         }
     }
 
@@ -190,6 +191,8 @@ public class SoundManager : MonoBehaviour
 
         musicSource.Stop();
         musicSource.pitch = 1f;
+        musicSource.volume = startVolume;
+
     }
     public void ResetMusic()
     {

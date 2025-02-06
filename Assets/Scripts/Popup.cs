@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,7 +9,14 @@ public class Popup : MonoBehaviour
     public string closePopupAnimation; // Kapanma animasyonu adı
 
     private bool isAnimating = false;
+    public event Action OnPopupClosed;
 
+
+    private IEnumerator DisableAfterAnimation(float animationTime)
+    {
+        yield return new WaitForSeconds(animationTime); // Animasyon süresince bekle
+        gameObject.SetActive(false); // Sonrasında kapat
+    }
     public void OpenPopup()
     {
         if (!isAnimating && popupAnimation != null)
@@ -25,13 +33,21 @@ public class Popup : MonoBehaviour
     // Popup'ı kapatma fonksiyonu
     public void ClosePopup()
     {
-        if (!isAnimating && popupAnimation != null)
+        Debug.Log(name + " : Close");
+
+        // Animation bileşeni var mı?
+        Animation animation = GetComponent<Animation>();
+
+        if (animation != null && animation.GetClip("popup_close") != null)
         {
-            isAnimating = true;
-            popupAnimation.Play(closePopupAnimation);
-            StartCoroutine(DisableAfterAnimation());
+            animation.Play("popup_close"); // Kapatma animasyonunu oynat
+            StartCoroutine(DisableAfterAnimation(animation.GetClip("popup_close").length)); // Animasyon süresi kadar bekle
         }
-        Debug.Log($"{gameObject.name} : Close");
+        else
+        {
+            Debug.LogWarning("Close animation not found, closing instantly.");
+            gameObject.SetActive(false); // Eğer animasyon yoksa anında kapat
+        }
     }
 
     // Animasyonun bitmesini bekleyen bir coroutine
@@ -44,15 +60,5 @@ public class Popup : MonoBehaviour
         isAnimating = false; // Animasyon bitti
     }
 
-    // Kapanma animasyonu bittiğinde popup'ı kapat
-    private IEnumerator DisableAfterAnimation()
-    {
-        while (popupAnimation.isPlaying)
-        {
-            yield return null;
-        }
-        UIManager.Instance.CloseTopPopup();
-        gameObject.SetActive(false); // Popup'ı kapat
-        isAnimating = false; // Animasyon bitti
-    }
+
 }

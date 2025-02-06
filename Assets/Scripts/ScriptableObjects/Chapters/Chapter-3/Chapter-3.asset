@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Chapter-3
   m_EditorClassIdentifier: 
   chapterName: Galactic Rush
-  chapterDescription: Space Concept Level
+  chapterDescription: 'In the Galactic Rush universe, Lucy races against time as
+    Lucy glides through the stars. In this realm, Lumina awaits on a tough path filled
+    with massive space rocks and star explosions, challenging her every move. '
   chapterBackGroundSprite: {fileID: 21300000, guid: 3a1da62d51b5e4fd499f3fa67ca12018, type: 3}
   chapterGroundSprite: {fileID: 21300000, guid: ba9977327c4234eeb867235343f010f2, type: 3}
-  chapterCharacter: {fileID: 6326789263313391527, guid: 5610a8f23ee6249bd89cf8095dfedcdf, type: 3}
-  chapterCharacterLosePose: {fileID: 21300000, guid: 3e5f00a10a08f40b0a5cb3e7913ef44b, type: 3}
+  chapterCharacter: {fileID: 7388144283287816569, guid: cc4990bf94a004b969ee9f5fae698ecd, type: 3}
+  chapterCharacterLosePose: {fileID: 21300000, guid: 67da31afa818c4fc19e26e52e06690ae, type: 3}
   chapterItemsMaterialSprite: {fileID: 21300000, guid: 2a067332deda24c28a10c4ed7c6eb00e, type: 3}
   goalObjectImagelist:
   - {fileID: 21300000, guid: 4a5f01dd12a8f483fae2072f330d54aa, type: 3}
@@ -30,6 +32,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bde08db2210e2420c9442a24082448ab, type: 3}
   - {fileID: 21300000, guid: de040b522f67c4a4da91cc522bec6136, type: 3}
   - {fileID: 21300000, guid: ec78addbec22a49339bf3647a0653a68, type: 3}
+  selectedItemIndex: 7
   chapterMX: {fileID: 8300000, guid: 0006f5a672fe8488cac126e35db77bec, type: 3}
   levels:
   - {fileID: 11400000, guid: 64d6984bac5f446dca7e31864dc1cf78, type: 2}
