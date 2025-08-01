@@ -116,6 +116,19 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"Sound effect '{effect}' not found in SoundManager.");
         }
     }
+    public void PlaySFXLoop(SoundEffect effect)
+    {
+        if (sfxDictionary.TryGetValue(effect, out AudioClip clip))
+        {
+            sfxSource.clip = clip;
+            sfxSource.loop = true;  // Döngüye al
+            sfxSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning($"Sound effect '{effect}' not found in SoundManager.");
+        }
+    }
     public void PlaySFXByName(string effectName)
     {
         if (System.Enum.TryParse(effectName, out SoundEffect effect))

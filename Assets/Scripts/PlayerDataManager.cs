@@ -54,6 +54,7 @@ public class PlayerDataManager : MonoBehaviour
     }
     void Start()
     {
+        
 
         LoadPlayerData(); // Önce kaydedilmiş verileri yükle
         GenerateRandomPlayerName(); // Eğer isim yoksa rastgele oluştur
